@@ -1,0 +1,35 @@
+export class ApoExecucaoModel01 {
+  public id_empresa: number = 0;
+  public id: number = 0;
+  public id_projeto: number = 0;
+  public id_conta: string = '';
+  public id_conta_versao: string = '';
+  public id_subconta: string = '';
+  public id_subcliente: number = 0;
+  public id_resp: number = 0;
+  public id_exec: number = 0;
+  public id_motivo: string = '';
+  public produtivo: string = '';
+  public inicial: string = '';
+  public final: string = '';
+  public obs: string = '';
+  public horasapon: number = 0;
+  public encerramento: string = '';
+  public nlanc: number = 0;
+  public user_insert: number = 0;
+  public user_update: number = 0;
+  public conta_descricao: string = '';
+  public grupo_descricao: string = '';
+  public estru_descricao: string = '';
+  public resp_razao: string = '';
+  public exec_razao: string = '';
+  public proj_descricao: string = '';
+  public motivo_descricao: string = '';
+  public motivo_produtivo: string = '';
+  public ativ_inicial: string = '';
+  public ativ_final: string = '';
+  public ativ_id_subcliente: number = 0;
+  public cli_razao: string = '';
+  public id_diretor: number = 0;
+  public dir_razao: string = '';
+}

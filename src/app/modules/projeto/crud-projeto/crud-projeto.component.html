@@ -1,0 +1,178 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Contratos: </span>
+    <app-navegator [controle]="controlePaginas" (changePage)="onChangePage()"></app-navegator>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+      (click)="getProjetosContador()" matTooltip="Atualizar" matTooltipPosition="above">
+      <mat-icon>rotate_right</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+      (click)="onSaveConfig()" matTooltip="Salvar Parâmetros" matTooltipPosition="above">
+      <mat-icon>brightness_high</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+      (click)="onHome()" matTooltip="Retorno" matTooltipPosition="above">
+      <mat-icon>home</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon "
+      (click)="escolha(getAcoes()[ 'Inclusao'])" matTooltip="Novo Contrato" matTooltipPosition="above">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div class="parametros">
+  <form [formGroup]="parametros" autocomplete="off" class="col-med-4">
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Ordenação</mat-label>
+      <mat-select formControlName="ordenacao" (selectionChange)="onChangeParametros()">
+        <mat-option *ngFor="let op of opcoesOrdenacao" [value]="op">
+          {{op}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Pesquisar Por</mat-label>
+      <mat-select formControlName="campo" (selectionChange)="onChangeParametros()">
+        <mat-option *ngFor="let op of opcoesCampo" [value]="op">
+          {{op}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="column-span-2">
+      <mat-label>Descrição</mat-label>
+      <input matInput formControlName="filtro" oninput="this.value = this.value.toUpperCase()">
+    </mat-form-field>
+  </form>
+</div>
+<cdk-virtual-scroll-viewport [itemSize]="50" class="content">
+  <table class="Browse-Scroll">
+    <tr class="coluna-cabec">
+      <th>SIT</th>
+      <th>Código</th>
+      <th>Tipo/Tem Atividade</th>
+      <th>Descrição/Cliente</th>
+      <th>Diretor</th>
+      <th>DT Cont./DT Enc.</th>
+      <th>Situacao</th>
+      <th>AÇÕES</th>
+    </tr>
+    <tr *cdkVirtualFor="let projeto of projetos ">
+      <td>
+        <mat-icon [inline] class="blue-icon" *ngIf="projeto.status >= '3'">check_box</mat-icon>
+        <mat-icon [inline]="true" [CorStatusProj]="'E'" [nivel]="projeto.nivelplan" *ngIf="projeto.status <= '2'">
+          crop_square</mat-icon>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{projeto.id}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{getTipo(projeto.id_tipo)}}</mat-label>
+        </div>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{projeto.tem_atividade}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{projeto.descricao}}</mat-label>
+        </div>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{projeto.cliente_razao}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{projeto.diretor_razao | firstName}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{projeto.dataproj}}</mat-label>
+        </div>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{projeto.dataenc }}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{projeto.status | situacaoProjeto}}</mat-label>
+        </div>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{projeto.status_ex | situacaoPadrao}}</mat-label>
+        </div>
+      </td>
+      <td class="acoes">
+        <barra-acoes [BARRA_VERTICAL]="projeto.status <= '2'" [BARRA_FINANCEIRO]="autorizado && projeto.valor > 0"
+          [ALTERAR]="projeto.status <= '2'" [EXCLUIR]="false" [BARRA_DASHBOARDV1]="projeto.horasexec != 0"
+          (changeOpcao)="escolha($event,projeto)">
+        </barra-acoes>
+      </td>
+    </tr>
+  </table>
+</cdk-virtual-scroll-viewport>
+
+<!--
+<div class="Browse">
+  <div class="linha" *ngFor="let projeto of projetos ; index as id">
+    <mat-card class="example-card" *ngIf="projeto.id !=0">
+      <mat-card-actions>
+        <span class="button-container-right ">
+          <div class="linha-status">
+            <div class="circulo" [CorStatusProj]="'P'" [nivel]="projeto.nivelplan"></div>
+          </div>
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(projeto,99)"
+            matTooltip="Anexar Atividades" matTooltipPosition="above">
+            <mat-icon>assignment</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon "
+            (click)="escolha(projeto,getAcoes()['Consulta'])" [matTooltip]="getTexto().consultar"
+            matTooltipPosition="above">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon "
+            (click)="escolha(projeto,getAcoes()[ 'Edicao'])" [matTooltip]="getTexto().alterar"
+            matTooltipPosition="above">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon "
+            (click)="escolha(projeto,getAcoes()[ 'Exclusao'])" [matTooltip]="getTexto().excluir"
+            matTooltipPosition="above">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </span>
+      </mat-card-actions>
+      <div *ngIf="projeto.id != 0">
+        <mat-card-content>
+          <mat-label class="labelTitleFirst">Contrato:</mat-label>
+          <mat-label class="labelData">{{projeto.id}}</mat-label>
+          <mat-label class="labelTitle">Descrição:</mat-label>
+          <mat-label class="labelData">{{projeto.descricao}}</mat-label>
+          <mat-label class="labelTitle">Situação:</mat-label>
+          <mat-label class="labelData">{{projeto.status | situacaoProjeto}}</mat-label>
+          <mat-label class="labelTitle">Planejamento:</mat-label>
+          <mat-label class="labelData">{{projeto.status_pl | situacaoPadrao}}</mat-label>
+          <mat-label class="labelTitle">Execução:</mat-label>
+          <mat-label class="labelData">{{projeto.status_ex | situacaoPadrao}}</mat-label>
+        </mat-card-content>
+        <mat-card-content>
+          <mat-label class="labelTitleFirst">Data Proposta:</mat-label>
+          <mat-label class="labelData">{{projeto.dataprop | date : 'dd/MM/yyyy'}}</mat-label>
+          <mat-label class="labelTitle">Data Contrato:</mat-label>
+          <mat-label class="labelData">{{projeto.dataproj | date : 'dd/MM/yyyy' }}</mat-label>
+          <mat-label class="labelTitle">Data Encerramento:</mat-label>
+          <mat-label class="labelData">{{projeto.dataenc | date : 'dd/MM/yyyy' }}</mat-label>
+        </mat-card-content>
+        <mat-card-content>
+          <mat-label class="labelTitleFirst">Diretor:</mat-label>
+          <mat-label class="labelData">{{projeto.diretor_razao}}</mat-label>
+          <mat-label class="labelTitle">Cliente:</mat-label>
+          <mat-label class="labelData">{{projeto.cliente_razao}}</mat-label>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>
+
+</div> -->

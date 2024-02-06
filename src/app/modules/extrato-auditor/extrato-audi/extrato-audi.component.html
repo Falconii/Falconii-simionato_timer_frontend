@@ -1,0 +1,29 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Extrato De Horas</span>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Apontamento"
+      matTooltipPosition="above">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div class="col-med-4">
+  <param-auditor [auditores]="auditores" (changeAuditor)="onChangeAuditor($event)"></param-auditor>
+  <param-coordenador [coordenadores]="coordenadores" (changeCoordenador)="onChangeCoordenador($event)">
+  </param-coordenador>
+  <param-diretor [diretores]="diretores" (changeDiretor)="onChangeDiretor($event)"></param-diretor>
+</div>
+<div class="col-med-4">
+  <div>
+    Auditor Escolhido: {{auditor}}
+  </div>
+  <div>
+    Coordenador Escolhido: {{coordenador}}
+  </div>
+  <div>
+    Diretor Escolhido: {{diretor}}
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">CONTROLE DE CONTRATOS</span>
+    <app-navegator [controle]="controlePaginas" (changePage)="onChangePage()"></app-navegator>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Atualizar"
+      matTooltipPosition="above" class="button" (click)="onAtualizar()">
+      <mat-icon>rotate_right</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<barra-parametrosv02 [diretores]="diretores" [situacoes]="situacoes" (changeDiretor)="onChangeDiretor($event)"
+  (changeSituacao)="onChangeSituacao($event)"></barra-parametrosv02>
+
+<div *ngFor="let projeto of projetos">
+  <mat-icon [inline]="true" class="icon-display">arrow_back</mat-icon>
+  <mat-label class="Linha_browse">{{projeto.descricao.trim()}}({{projeto.id}})</mat-label>
+  <mat-label class="Linha_browse">{{projeto.status | situacaoProjeto}}</mat-label>
+</div>

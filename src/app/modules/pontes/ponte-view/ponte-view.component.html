@@ -1,0 +1,154 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Ponte: {{feriado.descricao}}</span>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Página Inicial"
+      matTooltipPosition="above" (click)="onHome()">
+      <mat-icon>home</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Retorno"
+      matTooltipPosition="above" (click)="onRetorno()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div *ngIf="idAcao == 99 || idAcao == 98">
+  <form [formGroup]="gerador" autocomplete="off">
+    <div class="box padding">
+      <h3 class="alinha_centro">{{labelCadastro}}</h3>
+      <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Data De Referência</mat-label>
+          <input matInput formControlName="data_ref" mask="00/00/0000" placeholder="dd/mm/aaaa"
+            [readonly]="idAcao != 99" [readonly]="readOnly">
+          <mat-error *ngIf="gerador.get('data_ref')?.errors?.ValidatorDate && NoValidtouchedOrDirtyGe('data_ref')">
+            {{gerador.get('data_ref')?.errors?.message}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="column-span-2">
+          <mat-label>Descrição</mat-label>
+          <input matInput formControlName="descricao" oninput="this.value = this.value.toUpperCase()"
+            [readonly]="readOnly">
+          <mat-error *ngIf="NoValidtouchedOrDirtyGe('descricao')">Observação - Tamanho Máximo 50 letras
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div *ngIf="displayPontes.length > 0">
+        <table class="Browse_Lanc">
+          <tr class="coluna-cabec-gerador">
+            <th class="acoes">
+              <div>
+                <mat-checkbox [checked]=displayPontes[0].checked (change)="setAllItens($event.checked)" color="accent">
+                  <mat-label class="Browse_Lanc_td">TODOS</mat-label>
+                </mat-checkbox>
+              </div>
+            </th>
+            <th>
+              <mat-label class="Browse_Lanc_td">Auditores</mat-label>
+            </th>
+            <th class="pontes">
+              <div>
+                <mat-label class="Browse_Lanc_td">Pontes</mat-label>
+              </div>
+            </th>
+            <th class="acoes">
+              <div>
+                <mat-label class="Browse_Lanc_td">Ação</mat-label>
+              </div>
+            </th>
+          </tr>
+          <tr *ngFor="let ponte of getVisiblesPontes()">
+            <td>
+            </td>
+            <td>
+              <div *ngIf="!ponte.vazia">
+                <mat-checkbox [checked]=ponte.checked color="accent" (change)="setItens($event.checked,ponte)">
+                  <mat-label class="Browse_Lanc_td">
+                    {{ponte.ponte.razao}}
+                  </mat-label>
+                </mat-checkbox>
+              </div>
+            </td>
+            <td>
+              <div *ngIf="!ponte.vazia">
+                <mat-label class="Browse_Lanc_td">{{ponte.ponte.descricao}}</mat-label>
+              </div>
+            </td>
+            <td>
+              <div>
+                <mat-label class="Browse_Lanc_td">{{ponte.acao | cadastroAcoesPipe}}</mat-label>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="button-container-right">
+        <button mat-raised-button color="primary" (click)="onGravarPontes()"
+          [disabled]="!hasAuditores()">{{acao}}</button>
+        <button mat-raised-button color="primary" (click)="onGerarPontes()" *ngIf="idAcao == 99"
+          [disabled]="!showAuditores()">Auditores</button>
+        <button mat-raised-button color="accent" (click)="onCancelGeracao()" [disabled]="gravando">Cancelar</button>
+      </div>
+    </div>
+    <div class="rodape"></div>
+    <div class="box padding" *ngIf="pontes.length > 0">
+      <table class="Browse_Lanc">
+        <tr class="coluna-cabec">
+          <th>Data</th>
+          <th>Descrição</th>
+          <th>Qtd Usuários</th>
+          <th>AÇÕES</th>
+        </tr>
+        <tr *ngFor="let ponte of pontes ">
+          <td>
+            <div>
+              <mat-label class="Browse_Lanc_td">{{ponte.data}}</mat-label>
+            </div>
+          </td>
+          <td>
+            <div>
+              <mat-label class="Browse_Lanc_td">{{ponte.descricao}}</mat-label>
+            </div>
+          </td>
+          <td>
+            <div>
+              <mat-label class="Browse_Lanc_td">{{ponte.total}}</mat-label>
+            </div>
+          </td>
+          <td class="acoes">
+            <barra-acoes [BARRA_ATIVIDADES]="false" [EXCLUIR]="false">
+            </barra-acoes>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </form>
+</div>
+<div class="box padding" *ngIf="feriados.length > 0 && (idAcao == 96 || idAcao == 97)">
+  <h3 class="alinha_centro">{{labelCadastro}}</h3>
+  <table class="Browse_Lanc">
+    <tr class="coluna-cabec">
+      <th>Data</th>
+      <th>Auditor</th>
+      <th>Descrição</th>
+    </tr>
+    <tr *ngFor="let feriado of feriados ">
+      <td>
+        <div class="alinha_centro">
+          <mat-label class="Browse_Lanc_td">{{feriado.data}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{feriado.id_usuario}}-{{feriado.usu_nome | firstName}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{feriado.descricao}}</mat-label>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="rodape">
+
+</div>

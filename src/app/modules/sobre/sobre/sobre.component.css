@@ -1,0 +1,163 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.Browse {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    cursor: pointer;
+}
+
+.Cabecalho {
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 30px;
+    background-color: coral;
+    text-align: center;
+}
+
+.Detalhe {
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 30px;
+    color: black;
+}
+
+.linha {
+    background-color: white;
+}
+
+.linha :hover {
+    background-color: #CCCC99
+}
+
+.labelTitleFirst {
+    font-size: large;
+    color: #0000CC;
+}
+
+.labelTitle {
+    font-size: large;
+    color: #0000CC;
+    margin-left: 5px;
+}
+
+.labelData {
+    font-size: large;
+    color: black;
+    margin-left: 5px;
+}
+
+.card-marg {
+    margin-top: 10px;
+}
+
+.email {
+    margin-top: 10px;
+}
+
+.email_cabecalho {
+    background-color: coral;
+    height: 100px;
+    width: 100%;
+}
+
+.email_img {
+    float: left;
+    margin-right: 10px;
+    text-align: end;
+}
+
+.email_paragrafo {
+    float: left;
+    width: calc(100% - 350px - 10px);
+}
+
+.header2 {
+    color: #0000CC;
+    font-size: 32px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.label_paragrafo {
+    color: black;
+    font-size: 24px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+
+@media screen and (min-width: 900px) {
+    .email_cabecalho {
+        background-color: coral;
+        height: 100px;
+        width: 100%;
+    }
+    .email_img {
+        float: left;
+        margin-right: 10px;
+    }
+    .header2 {
+        color: #0000CC;
+        font-size: 32px;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+    .label_paragrafo {
+        color: black;
+        font-size: 24px;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: 600;
+        margin-top: 30px;
+        margin-left: 30px;
+        margin-bottom: 10px;
+    }
+}
+
+
+/*
+@media screen and (max-width: 600px) {
+    .email_cabecalho {
+        background-color: coral;
+        height: 100px;
+    }
+    .email_img {
+        float: left;
+        margin-right: 10px;
+        text-align: end;
+    }
+    .header2 {
+        color: #0000CC;
+        font-size: 18px;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: bold;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        text-align: left;
+    }
+    .label_paragrafo {
+        color: black;
+        font-size: 12px;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: 600;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+
+}
+*/

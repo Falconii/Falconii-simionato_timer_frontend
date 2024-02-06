@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Informa A Horas Diretoria</h1>
+<div mat-dialog-content>
+    <form [formGroup]="formulario">
+        <div class="col-med-1">
+            <mat-form-field appearance="outline" class="col-max">
+                <mat-label>Horas Diretoria</mat-label>
+                <input matInput formControlName="horasdir">
+            </mat-form-field>
+        </div>
+    </form>
+</div>
+<div class="button-container-right">
+    <button mat-raised-button color="accent" cdkFocusInitial (click)="closeModal()">
+   <mat-icon>cancel</mat-icon>
+   Cancelar
+ </button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="actionFunction()" *ngIf="itsOk()">
+   <mat-icon>check</mat-icon>
+   Gravar
+ </button>
+</div>

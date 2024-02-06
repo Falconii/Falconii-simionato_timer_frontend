@@ -1,0 +1,32 @@
+<div class="quadro">
+  <form [formGroup]="formulario" autocomplete="off" class="formulario">
+    <h2>Bem Vindo Ao TimeSheet</h2>
+    <h3>Identifique-se Por Favor</h3>
+    <div class="campos col-med-1">
+      <mat-form-field appearance="outline" class=".col-max">
+        <mat-label>ID DO USUÁRIO</mat-label>
+        <input matInput formControlName="id" autofocus>
+        <mat-error *ngIf="formulario.get('id')?.status == 'INVALID' && touchedOrDirty('id')">Campo Obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="campos col-med-1">
+      <mat-form-field appearance="outline" class=".col-max">
+        <mat-label>Senha</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="senha" required>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="formulario.get('senha')?.errors?.ValidatorStringLen && touchedOrDirty('senha')">
+          {{formulario.get('senha')?.errors?.message}}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="campos col-med-2">
+      <button mat-raised-button color="primary" class="col-70" (click)="onValidar()">Login</button>
+      <button mat-raised-button color="accent" class="col-70" (click)="onCancelar()">Cancelar</button>
+    </div>
+    <br /><br />
+    <div class="button-container-right">
+      <button mat-button class="green-icon" (click)="onSair()">Sair</button>
+      <!--<button mat-button class="green-icon" (click)="onEsqueceu()">Esqueceu A Senha</button>-->
+    </div>
+  </form>
+</div>

@@ -1,0 +1,92 @@
+<p>
+    <mat-toolbar>
+        <span class="example-spacer">Contrato: {{atividade.id_projeto}} Código Da Atividade: {{atividade.subconta }}</span>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro Contratos" matTooltipPosition="above" *ngIf="idAcao == 99" (click)="setFiltro()">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    </mat-toolbar>
+</p>
+<form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao !== 99">
+    <h1>Lançamento:{{labelCadastro}}</h1>
+    <div class="button-container-right" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+        <button class="buttons" mat-raised-button color="primary" (click)=onManha()>Manhã</button>
+        <button class="buttons" mat-raised-button color="primary" (click)="onTarde()">Tarde</button>
+    </div>
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Entrada</mat-label>
+            <input matInput autofocus formControlName="entrada" [dropSpecialCharacters]="false" mask="00:00" onfocus="this.select()">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Saída</mat-label>
+            <input matInput formControlName="saida" [dropSpecialCharacters]="false" mask="00:00" onfocus="this.select()">
+        </mat-form-field>
+        <mat-checkbox class="encerramento" formControlName="encerra">Encerrar Atividade</mat-checkbox>
+    </div>
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="LargerWidth">
+            <mat-label>Observação</mat-label>
+            <input matInput formControlName="obs">
+        </mat-form-field>
+    </div>
+    <div class="button-container-right">
+        <button class="buttons" mat-raised-button color="primary" (click)=onSubmit()>{{acao}}</button>
+        <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+</form>
+<div *ngIf="idAcao == 99">
+    <table>
+        <tr class="coluna-cabec">
+            <th>DATA</th>
+            <th>ATIVIDADES</th>
+            <th>AÇÃO</th>
+        </tr>
+        <tr *ngFor="let agendamento of parametroAgendaPlanejamento03.agenda">
+            <td class="coluna-codigo">{{agendamento.data | date : 'dd/MM/yyyy'}}
+            </td>
+            <td class="coluna-descricao">
+                <div *ngFor="let lanca of agendamento.movimentos">
+                    <div *ngIf="exibir(lanca)">
+                        <mat-label class="labelTitle">Encerrado:</mat-label>
+                        <mat-label class="labelData">{{lanca.encerra | simNao}} </mat-label>
+                        <mat-label class="labelTitle">Horario:</mat-label>
+                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final | date : 'HH:mm'}}
+                        </mat-label>
+                        <mat-label class="labelTitle">Hora Apontadas:</mat-label>
+                        <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Edicao'],agendamento,lanca)" matTooltip="Alterar Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">
+              <mat-icon>edit</mat-icon>
+            </button>
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Exclusao'],agendamento,lanca)" matTooltip="Excluir Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">
+              <mat-icon>delete</mat-icon>
+            </button>
+                    </div>
+                    <div *ngIf="exibir(lanca)">
+                        <mat-label class="labelTitle" [matTooltip]="showDadosProjeto(lanca)" matTooltipPosition="above">Contrato:
+                        </mat-label>
+                        <mat-label class="labelData">{{lanca.id_projeto}}-{{lanca.proj_descricao}}</mat-label>
+                    </div>
+                    <div *ngIf="exibir(lanca)">
+                        <mat-label class="labelTitle">Atividade:</mat-label>
+                        <mat-label class="labelData">{{lanca.id_subconta}}-{{lanca.estru_descricao}}</mat-label>
+                    </div>
+                    <div *ngIf="exibir(lanca)">
+                        <mat-label class="labelTitle">Obs.:</mat-label>
+                        <mat-label class="labelData">{{lanca.obs}}</mat-label>
+                    </div>
+                </div>
+            </td>
+            <td class="coluna-acao">
+                <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Apontamento" matTooltipPosition="above" (click)="adicao(getAcoes()['Inclusao'],agendamento)">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+                <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtrar Esta Data" matTooltipPosition="above" (click)="setFiltroData(agendamento)">
+          <mat-icon>filter_list</mat-icon>
+        </button>
+            </td>
+        </tr>
+    </table>
+</div>

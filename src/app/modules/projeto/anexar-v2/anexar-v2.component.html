@@ -1,0 +1,59 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Contrato:{{projeto.id}} {{projeto.descricao}} - Manutenção das Atividades </span>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Gravar"
+      matTooltipPosition="above" (click)="onSave()">
+      <mat-icon class="green-icon">check</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Cancelar"
+      matTooltipPosition="above" (click)="onRetorno()">
+      <mat-icon class="red-icon">cancel</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div *ngIf="displayAtividades.length > 0">
+  <table class="Browse_Lanc">
+    <tr class="coluna-cabec">
+      <th>CONTA</th>
+      <th>DESCRIÇÃO</th>
+    </tr>
+    <tr *ngFor="let atividade of getVisiblesAtividades()">
+      <td class="coluna-descricao">
+        <div *ngIf="atividade.atividade.nivel == 1">
+          <button mat-icon-button aria-label="Example icon-button with share icon "
+            (click)="expandeContrair(atividade)">
+            <mat-icon>{{atividade.expandido ? "expand_less" : "expand_more"}}</mat-icon>
+          </button>
+          <mat-checkbox [checked]=atividade.checked (change)="setAllItens($event.checked,atividade.atividade)"
+            color="accent" [disabled]="!atividade.vazia">
+          </mat-checkbox>
+        </div>
+        <div *ngIf="atividade.atividade.nivel > 1">
+          <mat-label class="labelData"></mat-label>
+        </div>
+      </td>
+      <td class="coluna-descricao">
+        <div *ngIf="atividade.atividade.nivel == 1">
+          <mat-label class="labelData">{{atividade.atividade.estru_descri}}</mat-label>
+        </div>
+        <div class="linha-status-projeto" *ngIf="atividade.atividade.nivel > 1">
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="expandeContrair(atividade)"
+            *ngIf="atividade.atividade.tipo !=  'O'">
+            <mat-icon>{{atividade.expandido ? "expand_less" : "expand_more"}}</mat-icon>
+          </button>
+          <mat-checkbox [checked]=atividade.checked (change)="setAllItens($event.checked,atividade.atividade) "
+            color="accent" [ngStyle]="setStyle(atividade.atividade)" [disabled]="!atividade.vazia">
+          </mat-checkbox>
+          <mat-label class="labelData">
+            {{atividade.atividade.estru_descri}}
+          </mat-label>
+          <div class="coluna-descricao cor-blue" *ngIf="atividade.atividade.nivel == 1">
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

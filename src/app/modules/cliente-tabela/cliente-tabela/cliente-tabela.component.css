@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+}
+
+th {
+    font-size: 22px;
+}
+
+td {
+    font-size: 18px;
+}
+
+.table-wrapper {
+    overflow: auto;
+    height: auto;
+    padding: 15px;
+}
+
+.paginator {
+    font-size: 14px;
+    color: blue;
+    background-color: inherit;
+}

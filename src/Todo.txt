@@ -1,0 +1,56 @@
+01-x Implantação do TimerSheet - rotinas de acompanhamento
+    Notei que foi possível excluir um contrato mesmo com lançamentos de horas.
+    Não consegui reproduzir o problema.
+    Geração de relatório de análise horizontal do meses com base nos "caderno" da CPSA
+
+04-x Implantação do TimerSheet - rotinas de acompanhamento
+    Geração de relatório de análise horizontal do meses com base nos "caderno" da CPSA
+    problemas com os arquivos
+
+06- XImplantação do TimerSheet - rotinas de acompanhamento.
+    análise para criar função de download e upload dos contratos dos clientes.
+
+11-x Alteração do cadastro de usuário. Inclusão de novos campos.
+   X Implantação do TimerSheet - rotinas de acompanhamento.
+
+13-x Verificação da rotina de validação de erros no cadastro de contratos.
+    Implantação do TimerSheet - rotinas de acompanhamento.
+12-x Gravacao de videos para treinamento.
+15-x Ajuste da rotina de validação de erros no cadastro de contratos.
+    análise para criar função de download e upload dos contratos dos clientes.
+
+18- Geração de relatório de análise horizontal do meses com base nos "caderno" da CPSA
+    Implantação do TimerSheet - rotinas de acompanhamento.
+
+20- Geração de relatório de análise horizontal do meses com base nos "caderno" da CPSA
+    Implantação do TimerSheet - rotinas de acompanhamento.
+
+22- Relatorio Auditores e Horas Executadas. Draft
+22- Relatorio Auditores e Horas Executadas, no aplicativo
+
+22- Problemas no subcliente do contrato 147
+    Rotina de geração de relatorio do controle de tickets
+
+22/09
+-Identificado problema no cadastro de contratos.
+ Provavelmente foi lançado o contrato no cliente 171, incluido atividades e
+ depois alterado o contrato para 147. As atividades ficaram com o subcliente errado.
+-Notei que usaram uma estrtura que foi criada para testes.
+ Fiz a exclusão e validação dos acumulados. tudo certo.
+-Cadastrei uma estrura específica para uso da TI no projeto TimeSheet
+-Alterei a rotina de lançamento de horas para comtemplar lançamentos da TI
+-Lançamento de horas quando dá erro, não libera o botão de gravação. Corrigido
+
+
+
+25/09 - Melhorei o filtro dos projetos. Excluir os projeto que não tem atividade anexada
+        Crei um campo na tela para escolher a atividade. Antes tinha uma hardcore chamando sempre a ativiade 01
+      - Análise para desenvolver rotina para importação de horas dos auditores.
+       Gerar versão final do  relatório de análise horizontal do meses com base nos "caderno" da CPSA DRAF
+       Desenvolvimento rotina final de controle de tickets. "BACK END" Geração de Movimentos
+
+27/09- análise para criar função de download e upload dos contratos dos clientes.
+       análise DE nova rotina de lançamentos de horas.
+       Desenvolvimento rotina final de controle de tickets."FRONT END" Geração de Movimentos
+
+29/09  análise das rotina de planejamento para possível liberação no próximo mês.

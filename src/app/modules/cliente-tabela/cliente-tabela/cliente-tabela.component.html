@@ -1,0 +1,68 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Clientes:</span>
+
+    <mat-paginator class="paginator" (page)="handlePageEvent($event)" [length]="length" [pageSize]="pageSize"
+      [showFirstLastButtons]="true" [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+      [hidePageSize]="hidePageSize" [pageIndex]="pageIndex" aria-label="Select page">
+    </mat-paginator>
+
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>rotate_right</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Retorno"
+      matTooltipPosition="above">
+      <mat-icon>home</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon ">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div class="table-wrapper">
+  <table mat-table [dataSource]="lsClientes" class="Browse mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Código </th>
+      <td mat-cell *matCellDef="let cliente"> {{cliente.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="razao">
+      <th mat-header-cell *matHeaderCellDef> Razão Social </th>
+      <td mat-cell *matCellDef="let cliente"> {{cliente.razao}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fantasi">
+      <th mat-header-cell *matHeaderCellDef> Fantasia </th>
+      <td mat-cell *matCellDef="let cliente"> {{cliente.fantasi}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="grupo">
+      <th mat-header-cell *matHeaderCellDef> Frupo </th>
+      <td mat-cell *matCellDef="let cliente"> {{cliente.grupo}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="acao">
+      <th mat-header-cell *matHeaderCellDef> Açôes </th>
+      <td mat-cell *matCellDef="let cliente">
+        <span class="button-container-right">
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="onEditar(cliente)"
+            matTooltipPosition="above">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="onEditar(cliente)"
+            matTooltipPosition="above">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="onEditar(cliente)"
+            matTooltipPosition="above">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

@@ -1,0 +1,172 @@
+<!--
+  https://assisrafael.github.io/angular-input-masks/
+-->
+<app-show-atividades-data (Cancelar)="onCancelarAtividades()" (Ok)="onOkAtividades()" [retorno]="retornoAtividades" *ngIf="showAtividades"></app-show-atividades-data>
+<div *ngIf="(idAcao == 99) && !showAtividades">
+    <div class="div-barra">
+        <mat-toolbar>
+            <span class="example-spacer">{{getTitulo()}}</span>
+            <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Apontamento" matTooltipPosition="above" (click)="adicao(getAcoes()['Inclusao'])">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+               <mat-icon>arrow_back</mat-icon>
+            </button>
+        </mat-toolbar>
+    </div>
+    <div>
+        <form [formGroup]="parametro" autocomplete="off">
+            <div class="col-med-2">
+                <mat-form-field appearance="outline" class="col-max">
+                    <mat-label>Usuário:</mat-label>
+                    <input matInput formControlName="usuario" readonly="true">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-max">
+                    <mat-label>Data:</mat-label>
+                    <input matInput [matDatepicker]="dataDatePicker" formControlName="data" (dateChange)="onParametrosChange()">
+                    <mat-datepicker-toggle matSuffix [for]="dataDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #dataDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-med-1">
+                <mat-form-field field appearance="outline" class="col-max">
+                    <mat-label>Atividades</mat-label>
+                    <mat-select formControlName="id_atividade" (selectionChange)="onParametrosChange()">
+                        <mat-option *ngFor="let atividade of atividades" [value]="atividade.id">
+                            {{atividade.id_projeto}}-{{atividade.estru_descri}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</div>
+<form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao !== 99">
+    <div class="div-barra">
+        <mat-toolbar>
+            <span class="example-spacer">{{labelCadastro}}</span>
+        </mat-toolbar>
+    </div>
+    <div class="col-med-5">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Entrada</mat-label>
+            <input matInput autofocus formControlName="entrada" placeholder="HH:MM" mask="00:00" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Saída</mat-label>
+            <input matInput formControlName="saida" placeholder="HH:MM" mask="00:00" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max column-span-2">
+            <mat-label>Atividade</mat-label>
+            <input matInput formControlName="atividade" readonly="true" tabindex="-1">
+        </mat-form-field>
+        <div class="col-max">
+            <mat-checkbox class="encerramento" formControlName="encerra" [disableRipple]="false">Encerrar Atividade</mat-checkbox>
+        </div>
+    </div>
+    <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Cliente</mat-label>
+            <input matInput formControlName="cliente" readonly="true" tabindex="-1">
+        </mat-form-field>
+    </div>
+    <div class="col-med-1">
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>Motivo</mat-label>
+            <mat-select formControlName="id_motivo">
+                <mat-option *ngFor="let motivo of motivos" [value]="motivo.codigo">
+                    {{motivo.motivo}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Observação</mat-label>
+            <input matInput formControlName="obs" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="button-container-right">
+        <button class="buttons" mat-raised-button color="primary" (click)=onSubmit()>{{acao}}</button>
+        <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+</form>
+<div *ngIf="idAcao == 99 && !showAtividades">
+    <table>
+        <tr class="coluna-cabec">
+            <th>PLANEJADO</th>
+            <th>EXECUTADO</th>
+        </tr>
+        <tr>
+            <td class="coluna-descricao">
+                <div *ngFor="let lanca of agendamentos">
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Horário:</mat-label>
+                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final | date : 'HH:mm'}}</mat-label>
+                        <mat-label class="labelTitle">Hora Apontadas:</mat-label>
+                        <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle" [matTooltip]="showDadosProjetoAgendamento(lanca)" matTooltipPosition="above">Contrato:</mat-label>
+                        <mat-label class="labelData">{{lanca.id_projeto}}-{{lanca.projeto_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Atividade:</mat-label>
+                        <mat-label class="labelData">{{lanca.estru_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Obs.::</mat-label>
+                        <mat-label class="labelData">{{lanca.obs}}</mat-label>
+                    </div>
+                </div>
+                <div *ngIf="agendamentos.length ==0">
+                    <mat-label>Nenhum Planejamento Para Esta Data</mat-label>
+                </div>
+            </td>
+            <td class="coluna-descricao">
+                <div *ngFor="let lanca of apontamentos">
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Horário:</mat-label>
+                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final | date : 'HH:mm'}}</mat-label>
+                        <mat-label class="labelTitle">Hora Apontadas:</mat-label>
+                        <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Alterar Apontamento" matTooltipPosition="above" (click)="outras(getAcoes()['Edicao'],lanca)">
+                          <mat-icon>edit</mat-icon>
+                       </button>
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Excluir Apontamento" matTooltipPosition="above" (click)="outras(getAcoes()['Exclusao'],lanca)">
+                          <mat-icon>delete</mat-icon>
+                       </button>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle" [matTooltip]="showDadosProjetoApontamento(lanca)" matTooltipPosition="above">Projeto:</mat-label>
+                        <mat-label class="labelData">{{lanca.id_projeto}}-{{lanca.proj_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Atividade:</mat-label>
+                        <mat-label class="labelData">{{lanca.estru_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Encerrou Atividade ?:</mat-label>
+                        <mat-label class="labelData">{{lanca.encerramento | simNao }}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Motivo:</mat-label>
+                        <mat-label class="labelData">{{lanca.motivo_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Produtivo:</mat-label>
+                        <mat-label class="labelData">{{lanca.motivo_produtivo}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Obs.::</mat-label>
+                        <mat-label class="labelData">{{lanca.obs}}</mat-label>
+                    </div>
+
+                </div>
+                <div *ngIf="apontamentos.length ==0">
+                    <mat-label>Nenhum Apontamento Para Esta Data</mat-label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

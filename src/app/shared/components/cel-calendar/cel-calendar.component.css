@@ -1,0 +1,37 @@
+.format-dia-semana {
+    color: black;
+    cursor: pointer;
+}
+
+.formata-dia-semana_1 {
+    color: black;
+    cursor: pointer;
+}
+
+.formata-dia-semana_2 {
+    color: yellow;
+    cursor: pointer;
+}
+
+.formata-dia-semana_3 {
+    color: gray;
+    cursor: pointer;
+}
+
+.cor-planejada {
+    color: green;
+    cursor: pointer;
+}
+
+.cor-executada {
+    color: red;
+    cursor: pointer;
+}
+
+
+/*
+     0 -> normal
+     1 -> feriado ou domingo
+     2 -> férias
+     3 -> fora do mês
+  */

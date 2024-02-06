@@ -1,0 +1,365 @@
+<p>
+  <mat-toolbar>
+    <span class="example-spacer">
+      <mat-label>{{labelCadastro}}</mat-label>
+    </span>
+    <div class="button-container-right">
+      <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="idAcao != 3">
+        <mat-icon>check</mat-icon>
+        {{acao}}
+      </button>
+      <button mat-raised-button color="accent" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+        {{getLabelCancel()}}
+      </button>
+    </div>
+  </mat-toolbar>
+</p>
+<form [formGroup]="formulario" autocomplete="off">
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon red-icon">border_color</mat-icon>
+        Auditoria
+      </ng-template>
+      <div class="moldura">
+        <div class="col-med-4">
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>CÓDIGO</mat-label>
+            <input matInput formControlName="id">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Ativo</mat-label>
+            <input matInput formControlName="ativo">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Razão Social</mat-label>
+            <input matInput formControlName="razao" oninput="this.value = this.value.toUpperCase()" autofocus
+              [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('razao')?.errors?.ValidatorStringLen && touchedOrDirty('razao')">
+              {{formulario.get('razao')?.errors?.message}}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Cadastro</mat-label>
+            <input matInput formControlName="cadastr" mask="00/00/0000" placeholder="DD/MM/AAAA" readonly=true>
+            <mat-error *ngIf="formulario.get('cadastr')?.errors?.ValidatorDate && touchedOrDirty('cadastr')">
+              {{formulario.get('cadastr')?.errors?.message}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-med-4">
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Senha</mat-label>
+            <input type="password" matInput formControlName="senha" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('senha')?.status == 'INVALID' && touchedOrDirty('senha')">Fantasia máximo
+              25 letras
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field field appearance="outline" class="col-max column-span-2"
+            *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']) && (idAcao != getAcoes()[ 'Atualizacao']))">
+            <mat-label>Grupo Do Usuário</mat-label>
+            <mat-select formControlName="grupo">
+              <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
+                {{grupo.grupo}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field field appearance="outline" class="col-max column-span-2"
+            *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+            <mat-label>Grupo</mat-label>
+            <input matInput formControlName="grupo_" [readonly]="readOnly">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>CNPJ/CPF</mat-label>
+            <input matInput formControlName="cnpj_cpf" [dropSpecialCharacters]="true"
+              mask="00.000.000/0000-00||000.000.000-00" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('cnpj_cpf')?.errors?.ValidadorCnpjCpf && touchedOrDirty('cnpj_cpf')">
+              {{formulario.get('cnpj_cpf')?.errors?.message}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-med-3">
+          <mat-form-field appearance="outline" class="col-max column-span-2">
+            <mat-label>Endereço:</mat-label>
+            <input matInput formControlName="rua" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('rua')?.errors?.ValidatorStringLen && touchedOrDirty('rua')">
+              {{formulario.get('rua')?.errors?.message}}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Número</mat-label>
+            <input matInput formControlName="nro" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('nro')?.errors?.ValidatorStringLen && touchedOrDirty('nro')">
+              {{formulario.get('nro')?.errors?.message}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-med-1">
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Complemento:</mat-label>
+            <input matInput formControlName="complemento" oninput="this.value = this.value.toUpperCase()"
+              [readonly]="readOnly">
+            <mat-error
+              *ngIf="formulario.get('complemento')?.errors?.ValidatorStringLen && touchedOrDirty('complemento')">
+              {{formulario.get('complemento')?.errors?.message}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-med-3">
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Bairro:</mat-label>
+            <input matInput formControlName="bairro" oninput="this.value = this.value.toUpperCase()"
+              [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('bairro')?.errors?.ValidatorStringLen && touchedOrDirty('bairro')">
+              {{formulario.get('bairro')?.errors?.message}}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Cidade:</mat-label>
+            <input matInput formControlName="cidade" oninput="this.value = this.value.toUpperCase()"
+              [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('cidade')?.errors?.ValidatorStringLen && touchedOrDirty('cidade')">
+              {{formulario.get('cidade')?.errors?.message}}</mat-error>
+          </mat-form-field>
+          <mat-form-field field appearance="outline" class="col-max"
+            *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>Estado:</mat-label>
+            <mat-select formControlName="uf">
+              <mat-option *ngFor="let uf of ufs" [value]="uf.sigla">
+                {{uf.sigla}}-{{uf.nome}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field field appearance="outline" class="col-max"
+            *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+            <mat-label>Estado:</mat-label>
+            <input matInput formControlName="uf_" [readonly]="readOnly">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>CEP:</mat-label>
+            <input matInput formControlName="cep" [dropSpecialCharacters]="true" mask='99999-999' [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('cep')?.errors?.ValidatorCep && touchedOrDirty('cep')">
+              {{formulario.get('cep')?.errors?.message}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-med-3">
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>E-Mail:</mat-label>
+            <input matInput formControlName="email" [readonly]="setEmailReadOnly()">
+            <mat-error *ngIf="formulario.get('email')?.status == 'INVALID' && touchedOrDirty('email')">E-Mail Inválido!
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Telefone 1:</mat-label>
+            <input matInput formControlName="tel1" [dropSpecialCharacters]="true"
+              mask="(00) 0 0000-0000||(00) 0000-0000" [readonly]="readOnly">
+            <mat-error *ngIf="getValidfield('tel1')">{{getMensafield('tel1')}}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Telefone 2:</mat-label>
+            <input matInput formControlName="tel2" [dropSpecialCharacters]="true"
+              mask="(00) 0 0000-0000||(00) 0000-0000" [readonly]="readOnly">
+            <mat-error *ngIf="getValidfield('tel2')">{{getMensafield('tel2')}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon blue-icon"> attach_money</mat-icon>
+        Administrativo
+      </ng-template>
+      <div class="moldura">
+        <div class="col-med-4">
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>CÓDIGO</mat-label>
+            <input matInput formControlName="id_x">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Ativo</mat-label>
+            <input matInput formControlName="ativo">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Razão Social</mat-label>
+            <input matInput formControlName="razao_x">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Cadastro</mat-label>
+            <input matInput formControlName="cadastr_x">
+          </mat-form-field>
+        </div>
+        <div class="col-med-2">
+          <mat-form-field field appearance="outline" class="col-max col-max"
+            *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']) && (idAcao != getAcoes()[ 'Atualizacao']))">
+            <mat-label>Apontamentos Hora</mat-label>
+            <mat-select formControlName="timer">
+              <mat-option *ngFor="let resp of respostas" [value]="resp.sigla">
+                {{resp.descricao}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field field appearance="outline" class="col-max col-max"
+            *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+            <mat-label>Apontamentos Hora</mat-label>
+            <input matInput formControlName="timer_" [readonly]="readOnly">
+          </mat-form-field>
+          <mat-form-field field appearance="outline" class="col-max col-max"
+            *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']) && (idAcao != getAcoes()[ 'Atualizacao']))">
+            <mat-label>Ticket</mat-label>
+            <mat-select formControlName="ticket">
+              <mat-option *ngFor="let resp of respostas" [value]="resp.sigla">
+                {{resp.descricao}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field field appearance="outline" class="col-max col-max"
+            *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+            <mat-label>Ticket</mat-label>
+            <input matInput formControlName="ticket_" [readonly]="readOnly">
+          </mat-form-field>
+        </div>
+        <div class="col-med-4">
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Manhã Entrada</mat-label>
+            <input matInput formControlName="man_hora_entrada" placeholder="HH:MM" mask="00:00" [readonly]="readOnly">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Manhã Saida</mat-label>
+            <input matInput formControlName="man_hora_saida" placeholder="HH:MM" mask="00:00" [readonly]="readOnly">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Tarde Entrada</mat-label>
+            <input matInput formControlName="tard_hora_entrada" placeholder="HH:MM" mask="00:00" [readonly]="readOnly">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Tarde Saida</mat-label>
+            <input matInput formControlName="tard_hora_saida" placeholder="HH:MM" mask="00:00" [readonly]="readOnly">
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</form>
+
+<!--
+  <div class="col-med-4">
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>CÓDIGO</mat-label>
+      <input matInput formControlName="id">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max column-span-2">
+      <mat-label>Razão Social</mat-label>
+      <input matInput formControlName="razao" oninput="this.value = this.value.toUpperCase()" autofocus
+        [readonly]="readOnly">
+      <mat-error *ngIf="formulario.get('razao')?.errors?.ValidatorStringLen && touchedOrDirty('razao')">
+        {{formulario.get('razao')?.errors?.message}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Cadastro</mat-label>
+      <input matInput formControlName="cadastr" mask="00/00/0000" placeholder="DD/MM/AAAA" readonly=true>
+      <mat-error *ngIf="formulario.get('cadastr')?.errors?.ValidatorDate && touchedOrDirty('cadastr')">
+        {{formulario.get('cadastr')?.errors?.message}}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="col-med-4">
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Senha</mat-label>
+      <input type="password" matInput formControlName="senha" [readonly]="readOnly">
+      <mat-error *ngIf="formulario.get('senha')?.status == 'INVALID' && touchedOrDirty('senha')">Fantasia máximo 25
+        letras
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max column-span-2"
+      *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']) && (idAcao != getAcoes()[ 'Atualizacao']))">
+      <mat-label>Grupo Do Usuário</mat-label>
+      <mat-select formControlName="grupo">
+        <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
+          {{grupo.grupo}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max column-span-2"
+      *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+      <mat-label>Grupo</mat-label>
+      <input matInput formControlName="grupo_" [readonly]="readOnly">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>CNPJ/CPF</mat-label>
+      <input matInput formControlName="cnpj_cpf" [dropSpecialCharacters]="true"
+        mask="00.000.000/0000-00||000.000.000-00" [readonly]="readOnly">
+      <mat-error *ngIf="formulario.get('cnpj_cpf')?.errors?.ValidadorCnpjCpf && touchedOrDirty('cnpj_cpf')">
+        {{formulario.get('cnpj_cpf')?.errors?.message}}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="col-med-3">
+    <mat-form-field appearance="outline" class="col-max column-span-2">
+      <mat-label>Endereço:</mat-label>
+      <input matInput formControlName="rua" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
+      <mat-error *ngIf="formulario.get('rua')?.errors?.ValidatorStringLen && touchedOrDirty('rua')">
+        {{formulario.get('rua')?.errors?.message}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Número</mat-label>
+      <input matInput formControlName="nro" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
+      <mat-error *ngIf="formulario.get('nro')?.errors?.ValidatorStringLen && touchedOrDirty('nro')">
+        {{formulario.get('nro')?.errors?.message}}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="col-med-1">
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Complemento:</mat-label>
+      <input matInput formControlName="complemento" oninput="this.value = this.value.toUpperCase()"
+        [readonly]="readOnly">
+      <mat-error *ngIf="formulario.get('complemento')?.errors?.ValidatorStringLen && touchedOrDirty('complemento')">
+        {{formulario.get('complemento')?.errors?.message}}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="col-med-3">
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Bairro:</mat-label>
+      <input matInput formControlName="bairro" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
+      <mat-error *ngIf="formulario.get('bairro')?.errors?.ValidatorStringLen && touchedOrDirty('bairro')">
+        {{formulario.get('bairro')?.errors?.message}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Cidade:</mat-label>
+      <input matInput formControlName="cidade" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
+      <mat-error *ngIf="formulario.get('cidade')?.errors?.ValidatorStringLen && touchedOrDirty('cidade')">
+        {{formulario.get('cidade')?.errors?.message}}</mat-error>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max"
+      *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+      <mat-label>Estado:</mat-label>
+      <mat-select formControlName="uf">
+        <mat-option *ngFor="let uf of ufs" [value]="uf.sigla">
+          {{uf.sigla}}-{{uf.nome}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max"
+      *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+      <mat-label>Estado:</mat-label>
+      <input matInput formControlName="uf_" [readonly]="readOnly">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>CEP:</mat-label>
+      <input matInput formControlName="cep" [dropSpecialCharacters]="true" mask='99999-999' [readonly]="readOnly">
+      <mat-error *ngIf="formulario.get('cep')?.errors?.ValidatorCep && touchedOrDirty('cep')">
+        {{formulario.get('cep')?.errors?.message}}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="col-med-3">
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>E-Mail:</mat-label>
+      <input matInput formControlName="email" [readonly]="setEmailReadOnly()">
+      <mat-error *ngIf="formulario.get('email')?.status == 'INVALID' && touchedOrDirty('email')">E-Mail Inválido!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Telefone 1:</mat-label>
+      <input matInput formControlName="tel1" [dropSpecialCharacters]="true" mask="(00) 0 0000-0000||(00) 0000-0000"
+        [readonly]="readOnly">
+      <mat-error *ngIf="getValidfield('tel1')">{{getMensafield('tel1')}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Telefone 2:</mat-label>
+      <input matInput formControlName="tel2" [dropSpecialCharacters]="true" mask="(00) 0 0000-0000||(00) 0000-0000"
+        [readonly]="readOnly">
+      <mat-error *ngIf="getValidfield('tel2')">{{getMensafield('tel2')}}</mat-error>
+    </mat-form-field>
+  </div>
+-->

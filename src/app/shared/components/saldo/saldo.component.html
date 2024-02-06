@@ -1,0 +1,22 @@
+<div class="box">
+  <h4>IMPLANTAÇÃO DE SALDOS DE HORAS</h4>
+  <div class="parametros-apontamentos">
+    <form [formGroup]="parametro" autocomplete="off">
+      <div>
+        <mat-form-field field appearance="outline">
+          <mat-label>Saldo Inicial</mat-label>
+          <input matInput formControlName="saldo">
+        </mat-form-field>
+      </div>
+      <div class="button-container-right">
+        <button mat-raised-button color="primary">
+          <mat-icon>check</mat-icon>
+          Atualizar
+        </button>
+      </div>
+    </form>
+    <div class="button-container-left">
+      <mat-label>Favor Implantar O Saldo Até {{dataLimite}}</mat-label>
+    </div>
+  </div>
+</div>

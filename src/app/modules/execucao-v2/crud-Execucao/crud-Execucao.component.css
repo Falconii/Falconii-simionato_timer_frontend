@@ -1,0 +1,13 @@
+tr:nth-child(even) {
+    background-color: #f2f2AA;
+}
+
+tr:hover {
+    background-color: rgb(202, 169, 157);
+}
+
+.moldura {
+    margin-top: 5px;
+    width: 99%;
+    margin-bottom: 10px;
+}

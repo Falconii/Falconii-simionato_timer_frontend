@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Cadastro de Responsáveis</h1>
+<div mat-dialog-content>
+    <form [formGroup]="formulario">
+        <div class="col-med-1">
+            <mat-checkbox formControlName="desconsiderar_resp" (change)="onChangeResp($event)">Desconsiderar</mat-checkbox>
+        </div>
+        <div class="col-med-1">
+            <mat-form-field field appearance="outline" class="col-max">
+                <mat-label>Responável</mat-label>
+                <mat-select formControlName="id_resp" (selectionChange)="onChangeResponsavel($event)">
+                    <mat-option *ngFor="let executor of data.executores" [value]="executor.id">
+                        {{executor.razao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-med-1">
+            <mat-checkbox formControlName="desconsiderar_exec" (change)="onChangeExec($event)">Desconsiderar</mat-checkbox>
+        </div>
+        <div class="col-med-1">
+            <mat-form-field field appearance="outline" class="col-max">
+                <mat-label>Executor</mat-label>
+                <mat-select formControlName="id_exec" (selectionChange)="onChangeExecutor($event)">
+                    <mat-option *ngFor="let executor of data.executores" [value]="executor.id">
+                        {{executor.razao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+</div>
+<div class="button-container-right">
+    <button mat-raised-button color="accent" cdkFocusInitial (click)="closeModal()">
+    <mat-icon>cancel</mat-icon>
+    Cancelar
+  </button>
+    <button mat-raised-button color="primary" *ngIf="itsOK()" [mat-dialog-close]="data" (click)="actionFunction()">
+    <mat-icon>check</mat-icon>
+    Confirmar
+  </button>
+</div>

@@ -1,0 +1,18 @@
+<p>
+    <mat-toolbar>
+        <span class="example-spacer"><mat-label>TESTE</mat-label></span>
+        <div class="button-container-right">
+            <button mat-raised-button color="primary" (click)="onDelete()" *ngIf="lsAuditorias.length > 0">
+          <mat-icon>check</mat-icon>
+          Excluir
+        </button>
+        </div>
+    </mat-toolbar>
+</p>
+<h1>Teste de Horas</h1>
+<h2>Auditoria:{{auditoria | json}}</h2>
+<h2>Retorno:{{retorno | json}}</h2>
+<br/>
+<div *ngFor="let auditoria of lsAuditorias">
+    <p>{{auditoria | json}}</p>
+</div>

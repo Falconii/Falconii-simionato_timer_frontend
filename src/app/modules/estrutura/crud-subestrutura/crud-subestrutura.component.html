@@ -1,0 +1,119 @@
+<div class="div-barra">
+    <mat-toolbar>
+        <span class="example-spacer">SubConta: {{subconta_pai}}-{{descricao_pai}} Nivel:{{nivel_pai}}</span>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Cadastro De Contas" matTooltipPosition="above" (click)="onHome()" *ngIf="idAcao == 99">
+          <mat-icon>home</mat-icon>
+         </button>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Cadastrar Novas SubContas" matTooltipPosition="above" (click)="escolha(subconta,getAcoes()[ 'Inclusao'],'1')" *ngIf="idAcao == 99">
+          <mat-icon>add_circle_outline</mat-icon>
+         </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()" *ngIf="idAcao == 99">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+    </mat-toolbar>
+</div>
+<form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao != 99">
+    <div class="col-med-6">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Conta</mat-label>
+            <input matInput formControlName="conta" readonly=true>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Versão</mat-label>
+            <input matInput formControlName="versao" readonly=true>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>SubConta</mat-label>
+            <input matInput formControlName="subconta" readonly=true>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max">
+            <mat-label>Nivel:</mat-label>
+            <input matInput formControlName="nivel" readonly=true>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="tipo">
+                <mat-option *ngFor="let tp of tipos" [value]="tp.id">
+                    {{tp.descricao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+            <mat-label>Tipo</mat-label>
+            <input matInput formControlName="tipo_" [readonly]="readOnly">
+        </mat-form-field>
+
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao'])  && (idAcao != getAcoes()[ 'Edicao']) )">
+            <mat-label>Controle:</mat-label>
+            <mat-select formControlName="controle">
+                <mat-option *ngFor="let resp of respostas" [value]="resp.sigla">
+                    {{resp.descricao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) || (idAcao == getAcoes()[ 'Edicao']) )">
+            <mat-label>Controle:</mat-label>
+            <input matInput formControlName="controle_" [readonly]="true">
+        </mat-form-field>
+    </div>
+    <div class="example-section">
+        <label class="example-margin">Qtd Descrições:</label>
+        <mat-radio-group formControlName="nLinhas" (change)="onChangeLinhas()">
+            <mat-radio-button class="example-margin" value="one">Uma Descrição</mat-radio-button>
+            <mat-radio-button class="example-margin" value="many">Várias Descrições</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div class="col-med-1" *ngIf="descricoes=='one'">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Descrição</mat-label>
+            <input matInput formControlName="descricao" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('descricao')?.status == 'INVALID' && touchedOrDirty('descricao')">Descrição máximo 300 letras</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-med-1" *ngIf="descricoes=='many'">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Descrições</mat-label>
+            <textarea matInput placeholder="Coloque aqui a descrição das tarefas" formControlName="linhas"></textarea>
+        </mat-form-field>
+    </div>
+    <div class="button-container-right">
+        <button mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+        <button mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+</form>
+<div class="Browse" *ngIf="idAcao==99">
+    <div class="linha" *ngFor="let sub of subcontas ; index as id">
+        <mat-card class="example-card">
+            <mat-card-subtitle>
+                <mat-label class="labelTitleFirst">Tipo:</mat-label>
+                <mat-label class="labelData">{{sub.tipo | tipoConta}}</mat-label>
+            </mat-card-subtitle>
+            <mat-card-actions>
+                <span class="button-container-right ">
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(sub,99,'C') " *ngIf="sub.descricao != '' && sub.tipo != 'O' "
+             matTooltip = "Subniveis"
+             matTooltipPosition="above">
+             <mat-icon>trending_down</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(sub,getAcoes()[ 'Edicao'],'') " *ngIf="sub.descricao != ''"
+            [matTooltip] = "getTexto().alterar"
+            matTooltipPosition="above">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(sub,getAcoes()[ 'Exclusao'],'') " *ngIf="sub.descricao != ''"
+            [matTooltip] = "getTexto().excluir"
+            matTooltipPosition="above">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </span>
+            </mat-card-actions>
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">SubConta:</mat-label>
+                <mat-label class="labelData">{{sub.subconta | subconta}}</mat-label>
+                <mat-label class="labelTitle">Descrição:</mat-label>
+                <mat-label class="labelData">{{sub.descricao}}</mat-label>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

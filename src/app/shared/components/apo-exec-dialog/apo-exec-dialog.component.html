@@ -1,0 +1,67 @@
+<div class="padrao" *ngIf="idAcao !== 99">
+  <div class="div-barra">
+    <mat-toolbar>
+      <span class="example-spacer">{{labelCadastro}}</span>
+      <div>
+        <button mat-button class="green-icon" (click)="onManha()"
+          *ngIf="((idAcao == getAcoes().Inclusao) ||(idAcao == getAcoes().Edicao))">Manhã</button>
+        <button mat-button class="green-icon" (click)="onAlmoco()"
+          *ngIf="((idAcao == getAcoes().Inclusao) ||(idAcao == getAcoes().Edicao))">Almoço</button>
+        <button mat-button class="green-icon" (click)="onTarde()"
+          *ngIf="((idAcao == getAcoes().Inclusao) ||(idAcao == getAcoes().Edicao))">Tarde</button>
+      </div>
+    </mat-toolbar>
+  </div>
+  <div class="padrao">
+    <form [formGroup]="formulario" autocomplete="off">
+      <div class="col-med-5">
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Entrada</mat-label>
+          <input matInput formControlName="entrada" placeholder="HH:MM" mask="00:00" [readonly]="readOnly"
+            [Setfocus]="focusEntrada">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Saída</mat-label>
+          <input matInput formControlName="saida" placeholder="HH:MM" mask="00:00" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max column-span-2">
+          <mat-label>Atividade</mat-label>
+          <input matInput formControlName="atividade" readonly="true" tabindex="-1">
+        </mat-form-field>
+        <div class="col-max">
+          <mat-checkbox class="encerramento" formControlName="encerra" [disableRipple]="false">Encerrar Atividade
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Cliente</mat-label>
+          <input matInput formControlName="cliente" readonly="true" tabindex="-1">
+        </mat-form-field>
+      </div>
+      <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Motivo Apontamento</mat-label>
+          <input matInput formControlName="motivo" oninput="this.value = this.value.toUpperCase()"
+            [readonly]="readOnly">
+        </mat-form-field>
+      </div>
+      <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Observação</mat-label>
+          <input matInput formControlName="obs" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
+        </mat-form-field>
+      </div>
+      <div class="button-container-right">
+        <button mat-raised-button color="accent" (click)="closeModal()" [Setfocus]="focusCancelar">
+          <mat-icon>cancel</mat-icon>
+          <span>{{getLabelCancel()}}</span>
+        </button>
+        <button mat-raised-button color="primary" (click)="actionFunction()" [disabled]="gravando">
+          <mat-icon>check</mat-icon>
+          <span>{{acao}}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

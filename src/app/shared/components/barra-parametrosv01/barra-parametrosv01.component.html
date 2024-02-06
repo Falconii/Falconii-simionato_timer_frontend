@@ -1,0 +1,28 @@
+<form [formGroup]="parametro" autocomplete="off">
+  <div class="col-med-6">
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Diretores</mat-label>
+      <mat-select formControlName="diretor">
+        <mat-option *ngFor="let diretor of diretores" [value]="diretor.id">
+          {{diretor.razao}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Coordenadores</mat-label>
+      <mat-select formControlName="coordenador">
+        <mat-option *ngFor="let coordenador of coordenadores" [value]="coordenador.id">
+          {{coordenador.razao}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Auditores</mat-label>
+      <mat-select formControlName="auditor">
+        <mat-option *ngFor="let auditor of auditores!" [value]="auditor.id">
+          {{auditor.razao}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>

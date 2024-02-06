@@ -1,0 +1,86 @@
+<div class="div-barra">
+    <mat-toolbar>
+        <span class="example-spacer">Contrato:{{projeto.id}}  {{projeto.descricao}} - Manutenção das Atividades </span>
+        <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="Example icon-button with share icon ">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #appMenu="matMenu">
+            <ng-template matMenuContent>
+                <button mat-menu-item (click)="onResponsavel()">
+                  <mat-icon>person</mat-icon>
+                  <span>Responsável</span>
+                </button>
+                <button mat-menu-item (click)="onExecutor()">
+                  <mat-icon>person_outline</mat-icon>
+                  <span>Executor</span>
+                </button>
+                <button mat-menu-item (click)="onPeriodo()">
+                  <mat-icon>date_range</mat-icon>
+                  <span>Período</span>
+                </button>
+            </ng-template>
+        </mat-menu>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    </mat-toolbar>
+</div>
+<p>{{id_empresa}}-{{conta}}-{{id_projeto}}</p>
+<div class="Atividade">
+    <div *ngIf="displayAtividades.length > 0">
+        <table>
+            <tr class="coluna-cabec">
+                <th>CONTA</th>
+                <th>DESCRIÇÃO</th>
+                <th>FILTRO</th>
+            </tr>
+            <tr *ngFor="let atividade of displayAtividades">
+                <td class="coluna-descricao">
+                    <mat-checkbox [checked]=atividade.checked (change)="setAllItens($event.checked,atividade.atividade)" color="accent">
+                    </mat-checkbox>
+                </td>
+                <td class="coluna-descricao">
+                    <mat-label class="labelData">{{atividade.atividade.estru_descri}}</mat-label>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.atividade.nivel == 1">
+                        <mat-label class="labelTitle">Horas Pl.:</mat-label>
+                        <mat-label class="labelData">{{atividade.atividade.horasplan}}</mat-label>
+                        <mat-label class="labelTitle">Horas Ex.:</mat-label>
+                        <mat-label class="labelData">{{atividade.atividade.horasexec}}</mat-label>
+                        <mat-label class="labelTitle">Horas Diretoria.:</mat-label>
+                        <mat-label class="labelData">{{atividade.atividade.horasdir}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.atividade.tipo=='O'">
+                        <mat-label class="labelTitle">Horas Pl.:</mat-label>
+                        <mat-label class="labelData">{{atividade.atividade.horasplan}}</mat-label>
+                        <mat-label class="labelTitle">Horas Ex.:</mat-label>
+                        <mat-label class="labelData">{{atividade.atividade.horasexec}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.atividade.tipo=='O'">
+                        <mat-label class="labelTitle">Responsável:</mat-label>
+                        <mat-label class="labelData">{{atividade.atividade.resp_razao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.atividade.tipo=='O'">
+                        <mat-label class="labelTitle">Data Inicial:</mat-label>
+                        <mat-label class="labelData">{{atividade.atividade.inicial | date : 'dd/MM/yyyy'}}</mat-label>
+                        <mat-label class="labelTitle">Data Final:</mat-label>
+                        <mat-label class="labelData">{{atividade.atividade.final | date : 'dd/MM/yyyy'}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.atividade.tipo=='O'">
+                        <mat-label class="labelTitle">Executor:</mat-label>
+                        <mat-label class="labelData">{{atividade.atividade.exec_razao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.atividade.tipo=='O'">
+                        <mat-label class="labelTitle">Obs:</mat-label>
+                        <mat-label class="labelData">{{atividade.atividade.obs}}</mat-label>
+                    </div>
+                </td>
+                <td class="coluna-acao">
+                    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Fixar Tópico" matTooltipPosition="above" (click)="onFiltro(atividade.atividade.subconta,atividade.atividade.nivel)" *ngIf="atividade.atividade.tipo == 'S'">
+                    <mat-icon>filter_list</mat-icon>
+                  </button>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>

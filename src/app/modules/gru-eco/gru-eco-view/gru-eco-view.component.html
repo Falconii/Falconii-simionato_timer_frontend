@@ -1,0 +1,28 @@
+<div class="div-barra">
+    <mat-toolbar>
+        <span class="example-spacer"><mat-label>{{labelCadastro}}</mat-label></span>
+        <div class="button-container-right">
+            <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="idAcao != 3">
+                <mat-icon>check</mat-icon>
+                {{acao}}
+            </button>
+            <button mat-raised-button color="accent" (click)="onCancel()">
+                <mat-icon>cancel</mat-icon>
+                {{getLabelCancel()}}
+            </button>
+        </div>
+    </mat-toolbar>
+</div>
+<form [formGroup]="formulario" autocomplete="off">
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>CÓDIGO</mat-label>
+            <input matInput formControlName="id">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max column-span-2">
+            <mat-label>Razão Social</mat-label>
+            <input matInput formControlName="razao" oninput="this.value = this.value.toUpperCase()" autofocus [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('razao')?.errors?.ValidatorStringLen && touchedOrDirty('razao')">{{formulario.get('razao')?.errors?.message}}</mat-error>
+        </mat-form-field>
+    </div>
+</form>

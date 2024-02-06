@@ -1,0 +1,113 @@
+<!--http://jsfiddle.net/danield770/sNwrs/3158/-->
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Motivos De Apontamento: </span>
+    <app-navegator [controle]="controlePaginas" (changePage)="onChangePage()"></app-navegator>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getmotivos()"
+      matTooltip="Atualizar" matTooltipPosition="above">
+      <mat-icon>rotate_right</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+      (click)="onSaveConfig()" matTooltip="Salvar Parâmetros" matTooltipPosition="above">
+      <mat-icon>brightness_high</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Retorno"
+      matTooltipPosition="above" (click)="onHome()">
+      <mat-icon>home</mat-icon>
+    </button>
+
+    <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()['Inclusao']) "
+      [matTooltip]="getTexto().incluir" matTooltipPosition="above">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div class="parametros">
+  <form [formGroup]="parametros" autocomplete="off" class="col-med-4">
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Ordenação</mat-label>
+      <mat-select formControlName="ordenacao" (selectionChange)="onChangeParametros()">
+        <mat-option *ngFor="let op of opcoesOrdenacao" [value]="op">
+          {{op}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Pesquisar Por</mat-label>
+      <mat-select formControlName="campo" (selectionChange)="onChangeParametros()">
+        <mat-option *ngFor="let op of opcoesCampo" [value]="op">
+          {{op}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max column-span-2">
+      <mat-label>Descrição</mat-label>
+      <input matInput formControlName="filtro" oninput="this.value = this.value.toUpperCase()">
+    </mat-form-field>
+  </form>
+</div>
+<cdk-virtual-scroll-viewport [itemSize]="50" class="content">
+  <table class="Browse-Scroll">
+    <tr class="coluna-cabec">
+      <th>Código</th>
+      <th>Motivo</th>
+      <th>Produtivo</th>
+      <th>AÇÕES</th>
+    </tr>
+    <tr *cdkVirtualFor="let motivo of motivos ">
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{motivo.codigo}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{motivo.motivo}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{motivo.produtivo}}</mat-label>
+        </div>
+      </td>
+      <td class="acoes">
+        <barra-acoes [BARRA_ATIVIDADES]="false" [EXCLUIR]="false" (changeOpcao)="escolha($event,motivo)"></barra-acoes>
+      </td>
+    </tr>
+  </table>
+</cdk-virtual-scroll-viewport>
+
+<!--
+<div class="Browse">
+  <div class="linha" *ngFor="let motivo of motivos ; index as id">
+    <mat-card class="example-card">
+      <mat-card-actions>
+        <span class="button-container-right ">
+          <button mat-icon-button aria-label="Example icon-button with share icon "
+            (click)="escolha(getAcoes()['Consulta'],motivo)" matTooltipPosition="above">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon "
+            (click)="escolha(getAcoes()['Edicao'],motivo) " [matTooltip]="getTexto().alterar"
+            matTooltipPosition="above">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon "
+            (click)="escolha(getAcoes()['Exclusao'],motivo) " [matTooltip]="getTexto().excluir"
+            matTooltipPosition="above">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </span>
+      </mat-card-actions>
+      <mat-card-content>
+        <mat-label class="labelTitleFirst">Código:</mat-label>
+        <mat-label class="labelData">{{motivo.codigo}}</mat-label>
+        <mat-label class="labelTitle">Motivo:</mat-label>
+        <mat-label class="labelData">{{motivo.motivo}}</mat-label>
+        <mat-label class="labelTitle">Produtivo:</mat-label>
+        <mat-label class="labelData">{{motivo.produtivo}}</mat-label>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+-->

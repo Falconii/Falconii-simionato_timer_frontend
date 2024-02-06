@@ -1,0 +1,28 @@
+table {
+    width: 100%;
+}
+
+th {
+    font-size: 22px;
+}
+
+td {
+    font-size: 14px;
+}
+
+.table-wrapper {
+    overflow: auto;
+    height: 75%;
+    padding: 15px;
+}
+
+.paginator {
+    font-size: 14px;
+    color: blue;
+    background-color: inherit;
+}
+
+.coluna_multipla {
+    display: block;
+    line-height: 7px;
+}

@@ -1,0 +1,101 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">AGENDA-DIRETORIA</span>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Atualizar"
+      matTooltipPosition="above" class="button" (click)=onSubmit()>
+      <mat-icon>rotate_right</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div>
+  <form [formGroup]="parametro" autocomplete="off">
+    <div class="col-med-6">
+      <mat-form-field field appearance="outline" class="col-max">
+        <mat-label>Diretores</mat-label>
+        <mat-select formControlName="diretores">
+          <mat-option *ngFor="let diretor of diretores" [value]="diretor.id">
+            {{diretor.razao}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max">
+        <mat-label>Coordenadores</mat-label>
+        <mat-select formControlName="coordenadores">
+          <mat-option *ngFor="let coordenador of coordenadores" [value]="coordenador.id">
+            {{coordenador.razao}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max">
+        <mat-label>Auditores</mat-label>
+        <mat-select formControlName="auditores">
+          <mat-option *ngFor="let auditor of auditores" [value]="auditor.id">
+            {{auditor.razao}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max">
+        <mat-label>Ano</mat-label>
+        <mat-select formControlName="ano">
+          <mat-option *ngFor="let ano of anos" [value]="ano">
+            {{ano}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max">
+        <mat-label>Mês</mat-label>
+        <mat-select formControlName="mes">
+          <mat-option *ngFor="let mes of meses.meses" [value]="mes.nro">
+            {{mes.nome}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+  </form>
+</div>
+<div *ngIf="calendario.length > 0">
+  <div class="col-med-7">
+    <mat-label class="col-max dia-semana cabec-car-dom">DOM</mat-label>
+    <mat-label class="col-max dia-semana cabec-car">SEG</mat-label>
+    <mat-label class="col-max dia-semana cabec-car">TER</mat-label>
+    <mat-label class="col-max dia-semana cabec-car">QUA</mat-label>
+    <mat-label class="col-max dia-semana cabec-car">QUI</mat-label>
+    <mat-label class="col-max dia-semana cabec-car">SEX</mat-label>
+    <mat-label class="col-max dia-semana cabec-car">SAB</mat-label>
+  </div>
+</div>
+<div *ngIf="calendario.length > 0">
+  <div class="col-med-7" *ngFor="let linha of linhas">
+    <div class="col-max dia-semana cabec-car-dom">
+      <app-cel-calendar [celula]="linha.line[0]" (onClickDay)="onDay($event)"></app-cel-calendar>
+    </div>
+    <div class="col-max dia-semana">
+      <app-cel-calendar [celula]="linha.line[1]" (onClickDay)="onDay($event)"></app-cel-calendar>
+    </div>
+    <div class="col-max dia-semana">
+      <app-cel-calendar [celula]="linha.line[2]" (onClickDay)="onDay($event)"></app-cel-calendar>
+    </div>
+    <div class="col-max dia-semana">
+      <app-cel-calendar [celula]="linha.line[3]" (onClickDay)="onDay($event)"></app-cel-calendar>
+    </div>
+    <div class="col-max dia-semana">
+      <app-cel-calendar [celula]="linha.line[4]" (onClickDay)="onDay($event)"></app-cel-calendar>
+    </div>
+    <div class="col-max dia-semana">
+      <app-cel-calendar [celula]="linha.line[5]" (onClickDay)="onDay($event)"></app-cel-calendar>
+    </div>
+    <div class="col-max dia-semana">
+      <app-cel-calendar [celula]="linha.line[6]" (onClickDay)="onDay($event)"></app-cel-calendar>
+    </div>
+  </div>
+</div>
+<div>
+  <app-cel-apontamentos-execucao *ngIf="showLancamento"></app-cel-apontamentos-execucao>
+</div>
+<div class="rodape">
+
+</div>

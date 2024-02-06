@@ -1,0 +1,12 @@
+<div>
+  <div>
+    <label [ngClass]="getClasse()" (click)="onClickDia()">{{Celula.dia}}</label>
+  </div>
+  <mat-divider *ngIf="Celula.tipo == 1"></mat-divider>
+  <div div class="col-med-2" *ngIf="showHoras()">
+    <mat-label class="cor-planejada" matTooltip="Horas Planejadas" matTooltipPosition="above"
+      (click)="onClickPlanejado()">{{Celula.horasplanejadas | horaSexagenal}}</mat-label>
+    <mat-label class="cor-executada" matTooltip="Horas Executadas" matTooltipPosition="above"
+      (click)="onClickExecutado()">{{Celula.horasexecutadas | horaSexagenal}}</mat-label>
+  </div>
+</div>

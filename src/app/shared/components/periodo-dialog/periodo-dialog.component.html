@@ -1,0 +1,38 @@
+<h1>{{data.titulo}}</h1>
+<form [formGroup]="formulario" autocomplete="off">
+    <div class="col-med-2">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>{{data.titulo_data1}}</mat-label>
+            <input matInput [matDatepicker]="inicialDatePicker" formControlName="dataInicial">
+            <mat-datepicker-toggle matSuffix [for]="inicialDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #inicialDatePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>{{data.titulo_data2}}</mat-label>
+            <input matInput [matDatepicker]="finalDatePicker" formControlName="dataFinal">
+            <mat-datepicker-toggle matSuffix [for]="finalDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #finalDatePicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <mat-form-field class="full-width" appearance="outline" *ngIf="data.temJustificativa">
+        <mat-label>Justificativa</mat-label>
+        <textarea matInput formControlName="justificativa" oninput="this.value = this.value.toUpperCase()"></textarea>
+        <mat-error *ngIf="formulario.get('justificativa')?.status == 'INVALID' && touchedOrDirty('justificativa')">{{getMensafield('justificativa')}}</mat-error>
+    </mat-form-field>
+    <div class="button-container-right">
+        <button mat-raised-button color="accent" cdkFocusInitial (click)="closeModal()">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancelar</span>
+      </button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="actionFunction()" *ngIf="formulario.valid">
+          <mat-icon>check</mat-icon>
+          <span>Gravar</span>
+      </button>
+    </div>
+    <div class="button-container-left">
+        <mat-label color="accent">Hora: {{data.dataHota | date : 'dd-MM-yyyy HH:mm:ss'}}</mat-label>
+    </div>
+    <div class="button-container-left">
+        <mat-label color="primary">Responsável:{{data.usuarioNome}}</mat-label>
+    </div>
+</form>

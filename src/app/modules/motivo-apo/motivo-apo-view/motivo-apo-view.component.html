@@ -1,0 +1,40 @@
+<div class="div-barra">
+    <mat-toolbar>
+        <span class="example-spacer"><mat-label>{{labelCadastro}}</mat-label></span>
+        <div class="button-container-right">
+            <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="idAcao != 3">
+              <mat-icon>check</mat-icon>
+              {{acao}}
+          </button>
+            <button mat-raised-button color="accent" (click)="onCancel()">
+              <mat-icon>cancel</mat-icon>
+              {{getLabelCancel()}}
+          </button>
+        </div>
+    </mat-toolbar>
+</div>
+<form [formGroup]="formulario" autocomplete="off">
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>CÓDIGO</mat-label>
+            <input matInput formControlName="codigo" [readonly]="ReadOnlyKey">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Motivo</mat-label>
+            <input matInput formControlName="motivo" oninput="this.value = this.value.toUpperCase()" autofocus [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('motivo')?.errors?.ValidatorStringLen && touchedOrDirty('motivo')">{{formulario.get('motivo')?.errors?.message}}</mat-error>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>Produtivo:</mat-label>
+            <mat-select formControlName="produtivo">
+                <mat-option *ngFor="let resp of respostas" [value]="resp.resp">
+                    {{resp.resposta}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+            <mat-label>Produtivo:</mat-label>
+            <input matInput formControlName="produtivo_" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+</form>

@@ -1,0 +1,154 @@
+<!--http://jsfiddle.net/danield770/sNwrs/3158/-->
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">{{labelCadastro}}</span>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Ordenar"
+      matTooltipPosition="above" (click)="onOrdenar()" *ngIf="((idAcao == 99) && (estruturas.length > 0))">
+      <mat-icon class="yellow-icon">sort</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Regravar"
+      matTooltipPosition="above" (click)="onUpdateAll()" *ngIf="((idAcao == 99) && (estruturas.length > 0))">
+      <mat-icon class="red-icon">check_box</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+      matTooltip="Gravar Nova Versão" matTooltipPosition="above" (click)="onSaveAll()"
+      *ngIf="((idAcao == 99) && (estruturas.length > 0))">
+      <mat-icon class="green-icon">check</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Cancelar"
+      matTooltipPosition="above" (click)="onRetorno()" *ngIf="(idAcao == 99)">
+      <mat-icon class="red-icon">cancel</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Home"
+      matTooltipPosition="above" (click)="onRetorno()" *ngIf="(idAcao == 99)">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div *ngIf="((idAcao == 99) && (estruturas.length > 0))">
+  <div class="parametros">
+    <form [formGroup]="parametros" autocomplete="off" class="col-med-4">
+      <mat-form-field field appearance="outline" class="col-max">
+        <mat-label>Nivel</mat-label>
+        <mat-select formControlName="nivel" (selectionChange)="onFiltrar()">
+          <mat-option *ngFor="let nivel of niveis" [value]="nivel.nivel">
+            {{nivel.descricao}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <table>
+    <tr class="coluna-cabec">
+      <th>Conta</th>
+      <th>Versão</th>
+      <th>Descrição</th>
+      <th>Tipo</th>
+      <th>Ação</th>
+    </tr>
+    <tr *ngFor="let estrutura of estruturas ; let i=index">
+      <td class="coluna-codigo" (click)="escolha(estrutura,getAcoes()[ 'Consulta'],i)"
+        *ngIf="showNivel(estrutura.nivel)">
+        {{estrutura.subconta | subconta}}
+      </td>
+      <td class="coluna-versao" *ngIf="showNivel(estrutura.nivel)">
+        {{estrutura.versao | versaopipe}}
+      </td>
+      <td class="coluna-descricao" (click)="escolha(estrutura,getAcoes()[ 'Consulta'],i)"
+        *ngIf="showNivel(estrutura.nivel)">
+        {{estrutura.descricao}}
+      </td>
+      <td class="coluna-acao" (click)="escolha(estrutura,getAcoes()[ 'Consulta'],i)" *ngIf="showNivel(estrutura.nivel)">
+        {{estrutura.tipo | tipoConta}}
+      </td>
+      <td class="coluna-acao" *ngIf="showNivel(estrutura.nivel)">
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Tópico"
+          matTooltipPosition="above" (click)="onIncluirConta(estrutura,i)">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Sub-Item"
+          matTooltipPosition="above" (click)="onIncluirSubConta(estrutura,i)"
+          *ngIf="estrutura.tipo != 'O' && estrutura.nivel >= 1 && estrutura.nivel <= 6">
+          <mat-icon>trending_down</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Excluir Item"
+          matTooltipPosition="above" (click)="escolha(estrutura,getAcoes()[ 'Exclusao'],i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Editar Item"
+          matTooltipPosition="above" (click)="escolha(estrutura,getAcoes()[ 'Edicao'],i)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+      </td>
+    </tr>
+
+  </table>
+</div>
+<div *ngIf="(!(idAcao == 99) )">
+  <form [formGroup]="formulario" autocomplete="off">
+    <div class="col-med-6">
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Conta</mat-label>
+        <input matInput formControlName="conta" readonly=true>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Versão</mat-label>
+        <input matInput formControlName="versao" readonly=true>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>SubConta</mat-label>
+        <input matInput formControlName="subconta" readonly=true>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max">
+        <mat-label>Nivel:</mat-label>
+        <input matInput formControlName="nivel" [readonly]="readOnly">
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max"
+        *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+        <mat-label>Tipo:</mat-label>
+        <mat-select formControlName="tipo">
+          <mat-option *ngFor="let tp of tipos" [value]="tp.tipo">
+            {{tp.descricao}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max"
+        *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+        <mat-label>Tipo:</mat-label>
+        <input matInput formControlName="tipo_" [readonly]="readOnly">
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max"
+        *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao'])  && (idAcao != getAcoes()[ 'Edicao']) )">
+        <mat-label>Controle:</mat-label>
+        <mat-select formControlName="controle">
+          <mat-option *ngFor="let resp of respostas" [value]="resp.sigla">
+            {{resp.descricao}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max"
+        *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) || (idAcao == getAcoes()[ 'Edicao']) )">
+        <mat-label>Controle:</mat-label>
+        <input matInput formControlName="controle_" [readonly]="true">
+      </mat-form-field>
+    </div>
+    <div class="col-med-1">
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Descrição</mat-label>
+        <input matInput formControlName="descricao" [readonly]="readOnly">
+        <mat-error *ngIf="formulario.get('descricao')?.status == 'INVALID' && touchedOrDirty('descricao')">Descrição
+          máximo 300 letras</mat-error>
+      </mat-form-field>
+    </div>
+    <div *ngIf="( (idAcao == getAcoes()[ 'Exclusao']))">
+      <mat-label class="atencao">Atenção!!</mat-label>
+      <br /><br>
+      <mat-label class="atencao_mensagem">Todos Os SubNíveis Serão Excluidos Também.</mat-label>
+    </div>
+    <div class="button-container-right">
+      <button mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+      <button mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+  </form>
+</div>

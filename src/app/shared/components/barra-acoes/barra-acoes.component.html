@@ -1,0 +1,66 @@
+<div class="barras2">
+  <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Copiar A Estrutura"
+    (click)="onChangeOpcao(getAcoes().Copy_Estrutura)" *ngIf="copy" matTooltipPosition="above">
+    <mat-icon class="icon-size">file_copy</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with share icon " class="botoes"
+    matTooltip="Visualizar Estrtutura" matTooltipPosition="above" *ngIf="visualizar" class="botoes"
+    (click)="onChangeOpcao(getAcoes().Visualizar_Estrtura)">
+    <mat-icon class="icon-size">fullscreen</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with share icon " class="botoes"
+    (click)="onChangeOpcao(getAcoes().Sub_Conta)" [matTooltip]="getTexto().sub_conta" matTooltipPosition="above"
+    *ngIf="subconta">
+    <mat-icon class="icon-size">assignment</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with share icon " class="botoes"
+    (click)="onChangeOpcao(getAcoes().Consulta)" [matTooltip]="getTexto().consultar" *ngIf="consulta"
+    matTooltipPosition="above">
+    <mat-icon class="icon-size">remove_red_eye</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with share icon " class="botoes"
+    (click)="onChangeOpcao(getAcoes().Edicao)" [matTooltip]="getTexto().alterar" *ngIf="alterar"
+    matTooltipPosition="above">
+    <mat-icon class="icon-size">edit</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with share icon " class="botoes"
+    (click)="onChangeOpcao(getAcoes().EdicaoMultipla)" [matTooltip]="getTexto().multi_edicao" *ngIf="mult_edicao"
+    matTooltipPosition="above">
+    <mat-icon class="icon-size">add_comment</mat-icon>
+  </button>
+  <button mat-icon-button class="botoes" [matTooltip]="getTexto().excluir" *ngIf="excluir"
+    (click)="onChangeOpcao(getAcoes().Exclusao)" matTooltipPosition="above">
+    <mat-icon class="icon-size">delete</mat-icon>
+  </button>
+  <button mat-icon-button class="botoes" [matTooltip]="getTexto().financeiro" *ngIf="financeiro"
+    (click)="onChangeOpcao(getAcoes().Exclusao)" matTooltipPosition="above">
+    <mat-icon class="icon-size">attach_money</mat-icon>
+  </button>
+  <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="Example icon-button with share icon " *ngIf="barra">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #appMenu="matMenu">
+    <ng-template matMenuContent>
+      <button mat-menu-item (click)="onChangeOpcao(getAcoes().EdicaoMultipla)" *ngIf="barra_mult_edicao">
+        <mat-icon>add_comment</mat-icon>
+        <span>{{getTexto().multi_edicao}}</span>
+      </button>
+      <button mat-menu-item (click)="onChangeOpcao(getAcoes().Exclusao)" *ngIf="barra_excluir">
+        <mat-icon>delete</mat-icon>
+        <span>{{getTexto().excluir}}</span>
+      </button>
+      <button mat-menu-item (click)="onChangeOpcao(99)" *ngIf="barra_atividades">
+        <mat-icon>assignment</mat-icon>
+        <span>Atividades</span>
+      </button>
+      <button mat-menu-item (click)="onChangeOpcao(98)" *ngIf="barra_dashboardv1">
+        <mat-icon>assignment</mat-icon>
+        <span>Horas Executadas</span>
+      </button>
+      <button mat-menu-item (click)="onChangeOpcao(97)" *ngIf="barra_financeiro">
+        <mat-icon>attach_money</mat-icon>
+        <span>Financeiro</span>
+      </button>
+    </ng-template>
+  </mat-menu>
+</div>

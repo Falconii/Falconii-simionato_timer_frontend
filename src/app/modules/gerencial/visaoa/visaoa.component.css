@@ -1,0 +1,37 @@
+.Linha_browse {
+    font-size: small;
+    color: black;
+    margin-left: 5px;
+}
+
+.icon-small {
+    color: red;
+    width: 10px;
+    height: inherit;
+}
+
+.icon-display {
+    transform: scale(1.6);
+}
+
+
+/* Example */
+
+
+/* Par */
+
+.linha:nth-child(even) {
+    background: #fff;
+}
+
+
+/* Ímpar */
+
+.linha:nth-child(odd) {
+    background: #000;
+}
+
+
+/*
+NOTE: A contagem começa em 1, NÃO em 0.
+*/

@@ -1,0 +1,209 @@
+<!--
+import {MAT_DATE_LOCALE} from '@angular/material';
+...
+providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }]
+
+https://www.thecodehubs.com/how-to-use-material-input-date-in-angular-app/
+-->
+<div class="div-barra">
+    <mat-toolbar>
+        <span class="example-spacer">
+      <mat-label>{{labelCadastro}}</mat-label>
+    </span>
+
+        <div class="button-container-right">
+            <button type="submit" mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+            <button mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+        </div>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" matTooltip="Manutenção Datas" matTooltipPosition="above" *ngIf="( (idAcao == getAcoes()[ 'Edicao']) )">
+      <mat-icon>calendar_today</mat-icon>
+    </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onDataPeriodo()">
+        <mat-icon>calendar_view_day</mat-icon>
+        <span>Período Do Contrato</span>
+      </button>
+        </mat-menu>
+    </mat-toolbar>
+</div>
+<form [formGroup]="formulario" autocomplete="off">
+    <div>
+        <mat-tab-group>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon red-icon">border_color</mat-icon>
+                    Auditoria
+                </ng-template>
+                <div class="moldura">
+                    <div class="col-med-2">
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Código</mat-label>
+                            <input matInput formControlName="id">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Situação</mat-label>
+                            <input matInput formControlName="status" [readonly]="readOnly">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-med-3">
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Data Proposta</mat-label>
+                            <input matInput formControlName="dataprop" mask="00/00/0000" placeholder="dd/mm/aaaa" [readonly]="readOnly">
+                            <mat-error *ngIf="formulario.get('dataprop')?.errors?.ValidatorDate && NoValidtouchedOrDirty('dataprop')">
+                                {{formulario.get('dataprop')?.errors?.message}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Data Contrato</mat-label>
+                            <input matInput formControlName="dataproj" mask="00/00/0000" placeholder="dd/mm/aaaa" [readonly]="readOnly">
+                            <mat-error *ngIf="formulario.get('dataproj')?.errors?.ValidatorDate && NoValidtouchedOrDirty('dataproj')">
+                                {{formulario.get('dataproj')?.errors?.message}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Data Encerramento</mat-label>
+                            <input matInput formControlName="dataenc" mask="00/00/0000" placeholder="dd/mm/aaaa" [readonly]="readOnly">
+                            <mat-error *ngIf="formulario.get('dataenc')?.errors?.ValidatorDate && NoValidtouchedOrDirty('dataenc')">
+                                {{formulario.get('dataenc')?.errors?.message}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-med-2">
+                        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+                            <mat-label>Tipo</mat-label>
+                            <mat-select formControlName="tipo">
+                                <mat-option *ngFor="let tipo of tipo_contratos" [value]="tipo.id">
+                                    {{tipo.descricao}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="NoValidtouchedOrDirty('tipo')">Informe O Tipo</mat-error>
+                        </mat-form-field>
+                        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+                            <mat-label>Tipo</mat-label>
+                            <input matInput formControlName="tipo_descricao" [readonly]="readOnly">
+                        </mat-form-field>
+                        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+                            <mat-label>Parceira</mat-label>
+                            <mat-select formControlName="parceira">
+                                <mat-option *ngFor="let parceira of parceiras" [value]="parceira.id">
+                                    {{parceira.descricao}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="NoValidtouchedOrDirty('parceira')">Informe A Parceira</mat-error>
+                        </mat-form-field>
+                        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+                            <mat-label>Parceira</mat-label>
+                            <input matInput formControlName="parceira_descricao" [readonly]="readOnly">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-med-2">
+                        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+                            <mat-label>Diretor</mat-label>
+                            <mat-select formControlName="id_diretor">
+                                <mat-option *ngFor="let diretor of diretores" [value]="diretor.id">
+                                    {{diretor.razao}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="NoValidtouchedOrDirty('id_diretor')">Informe O Diretor</mat-error>
+                        </mat-form-field>
+                        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+                            <mat-label>Diretor</mat-label>
+                            <input matInput formControlName="diretor_razao" [readonly]="readOnly">
+                        </mat-form-field>
+                        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+                            <mat-label>Cliente</mat-label>
+                            <mat-select formControlName="id_cliente">
+                                <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
+                                    {{cliente.fantasi}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="NoValidtouchedOrDirty('id_cliente')">Informe O Diretor</mat-error>
+                        </mat-form-field>
+                        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+                            <mat-label>Cliente</mat-label>
+                            <input matInput formControlName="cliente_razao" [readonly]="readOnly">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-med-1">
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Descrição</mat-label>
+                            <input matInput formControlName="descricao" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
+                            <mat-error *ngIf="NoValidtouchedOrDirty('descricao')">Descrição - No mínimo 03 letras e no máximo 50 letras
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-med-2">
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Objeto</mat-label>
+                            <input matInput formControlName="objeto" [readonly]="readOnly" oninput="this.value = this.value.toUpperCase()">
+                            <mat-error *ngIf="formulario.get('objeto')?.errors?.ValidatorStringLen && NoValidtouchedOrDirty('objeto')">
+                                {{formulario.get('objeto')?.errors?.message}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Observação</mat-label>
+                            <input matInput formControlName="observacao" [readonly]="readOnly" oninput="this.value = this.value.toUpperCase()">
+                            <mat-error *ngIf="formulario.get('observacao')?.errors?.ValidatorStringLen && NoValidtouchedOrDirty('observacao')">
+                                {{formulario.get('observacao')?.errors?.message}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-med-3">
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Horas Planejadas</mat-label>
+                            <input matInput formControlName="horasplan" [readonly]="true">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Horas Executadas</mat-label>
+                            <input matInput formControlName="horasexec" [readonly]="true">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Horas Diretoria</mat-label>
+                            <input matInput formControlName="horasdir" [readonly]="true">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label *ngIf="isDirAdm()">
+                    <mat-icon class="example-tab-icon blue-icon"> attach_money</mat-icon>
+                    Administrativo
+                </ng-template>
+                <div class="moldura">
+                    <div class="col-med-3">
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Horas Vendidas</mat-label>
+                            <input matInput formControlName="horasve" [readonly]="readOnly">
+                            <mat-error *ngIf="NoValidtouchedOrDirty('horasve')">Valor Mínimo 1 Hora</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Valor</mat-label>
+                            <input matInput formControlName="valor" [readonly]="readOnly">
+                            <mat-error *ngIf="formulario.get('valor')?.errors?.ValidatorCurrency && NoValidtouchedOrDirty('valor')">
+                                {{formulario.get('valor')?.errors?.message}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Contrato</mat-label>
+                            <input matInput formControlName="id_contrato" [readonly]="true">
+                            <button matSuffix mat-icon-button aria-label="Clear">
+                <mat-icon>close</mat-icon>
+              </button>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-med-2">
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Data Assinatura</mat-label>
+                            <input matInput formControlName="assinatura" mask="00/00/0000" placeholder="dd/mm/aaaa" [readonly]="readOnly">
+                            <mat-error *ngIf="formulario.get('assinatura')?.errors?.ValidatorDate && NoValidtouchedOrDirty('assinatura')">
+                                {{formulario.get('assinatura')?.errors?.message}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-max">
+                            <mat-label>Data Reajuste</mat-label>
+                            <input matInput formControlName="reajuste" mask="00/00/0000" placeholder="dd/mm/aaaa" [readonly]="readOnly">
+                            <mat-error *ngIf="formulario.get('reajuste')?.errors?.ValidatorDate && NoValidtouchedOrDirty('reajuste')">
+                                {{formulario.get('reajuste')?.errors?.message}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</form>
+<!--
+<app-tree-atividades [CONTRATO]="projeto.id"></app-tree-atividades>
+-->

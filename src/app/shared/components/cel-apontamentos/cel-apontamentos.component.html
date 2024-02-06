@@ -1,0 +1,94 @@
+<div class="div-barra" *ngIf="cel.dia > 0">
+    <mat-toolbar>
+        <span><mat-label>APONTAMENTOS - {{cel.data | date : 'dd/MM/yyyy'}}</mat-label></span>
+    </mat-toolbar>
+</div>
+<div>
+    <table class="div-barra">
+        <tr class="coluna-cabec">
+            <th>PLANEJADO</th>
+            <th>EXECUTADO</th>
+        </tr>
+        <tr>
+            <td class="coluna-descricao">
+                <div *ngFor="let lanca of agendamentos">
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Horário:</mat-label>
+                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final | date : 'HH:mm'}}</mat-label>
+                        <mat-label class="labelTitle">Hora Apontadas:</mat-label>
+                        <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle" [matTooltip]="showDadosProjetoAgendamento(lanca)" matTooltipPosition="above">Projeto:</mat-label>
+                        <mat-label class="labelData">{{lanca.id_projeto}}-{{lanca.projeto_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Responsável:</mat-label>
+                        <mat-label class="labelData">{{lanca.resp_razao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Executor:</mat-label>
+                        <mat-label class="labelData">{{lanca.exec_razao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Atividade:</mat-label>
+                        <mat-label class="labelData">{{lanca.estru_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Obs.::</mat-label>
+                        <mat-label class="labelData">{{lanca.obs}}</mat-label>
+                    </div>
+                </div>
+                <div *ngIf="agendamentos.length ==0">
+                    <mat-label>Nenhum Planejamento Para Esta Data</mat-label>
+                </div>
+            </td>
+            <td class="coluna-descricao">
+                <div *ngFor="let lanca of apontamentos">
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Horário:</mat-label>
+                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final | date : 'HH:mm'}}</mat-label>
+                        <mat-label class="labelTitle">Hora Apontadas:</mat-label>
+                        <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle" [matTooltip]="showDadosProjetoApontamento(lanca)" matTooltipPosition="above">Projeto:</mat-label>
+                        <mat-label class="labelData">{{lanca.id_projeto}}-{{lanca.proj_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Responsável:</mat-label>
+                        <mat-label class="labelData">{{lanca.resp_razao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Executor:</mat-label>
+                        <mat-label class="labelData">{{lanca.exec_razao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Encerrou Atividade ?:</mat-label>
+                        <mat-label class="labelData">{{lanca.encerramento | simNao }}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Atividade:</mat-label>
+                        <mat-label class="labelData">{{lanca.estru_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Motivo:</mat-label>
+                        <mat-label class="labelData">{{lanca.motivo_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Produtivo:</mat-label>
+                        <mat-label class="labelData">{{lanca.motivo_produtivo}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Obs.::</mat-label>
+                        <mat-label class="labelData">{{lanca.obs}}</mat-label>
+                    </div>
+
+                </div>
+                <div *ngIf="apontamentos.length ==0">
+                    <mat-label>Nenhum Apontamento Para Esta Data</mat-label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

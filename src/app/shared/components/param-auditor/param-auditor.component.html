@@ -1,0 +1,12 @@
+<form [formGroup]="parametro" autocomplete="off">
+  <div class="col-med-6">
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Auditores</mat-label>
+      <mat-select formControlName="auditor" (selectionChange)='onChangeAuditor()'>
+        <mat-option *ngFor="let auditor of auditores" [value]="auditor.id">
+          {{auditor.razao}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>

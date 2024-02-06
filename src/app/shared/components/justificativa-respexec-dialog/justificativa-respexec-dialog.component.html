@@ -1,0 +1,30 @@
+<h1>{{data.texto}}</h1>
+<form [formGroup]="formulario" autocomplete="off">
+    <div class="col-med-1">
+        <mat-form-field field appearance="outline" class="col-max">
+            <mat-label>{{data.titulo}}</mat-label>
+            <mat-select formControlName="usuario" (selectionChange)="onChangeUsuario($event)">
+                <mat-option *ngFor="let usuario of data.usuarios" [value]="usuario.id">
+                    {{usuario.razao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Justificativa:</mat-label>
+            <input matInput formControlName="justificativa" oninput="this.value = this.value.toUpperCase()">
+            <mat-error *ngIf="formulario.get('justificativa')?.errors?.ValidatorStringLen && touchedOrDirty('justificativa')">{{formulario.get('justificativa')?.errors?.message}}</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="button-container-right">
+        <button mat-raised-button color="accent" cdkFocusInitial (click)="closeModal()">
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="actionFunction()">
+            <mat-icon>check</mat-icon>
+            Gravar
+        </button>
+    </div>
+</form>

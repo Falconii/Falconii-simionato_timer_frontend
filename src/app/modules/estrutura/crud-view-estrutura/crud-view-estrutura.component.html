@@ -1,0 +1,69 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span>
+      <mat-label>{{labelCadastro}}</mat-label>
+    </span>
+  </mat-toolbar>
+</div>
+<form [formGroup]="formulario" autocomplete="off">
+  <div class="col-med-4">
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Conta</mat-label>
+      <input matInput formControlName="conta" readonly=true>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Versão</mat-label>
+      <input matInput formControlName="versao" readonly=true>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>SubConta</mat-label>
+      <input matInput formControlName="subconta" readonly=true>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Nivel:</mat-label>
+      <input matInput formControlName="nivel" [readonly]="readOnly">
+    </mat-form-field>
+  </div>
+  <div class="col-med-2">
+    <mat-form-field field appearance="outline" class="col-max"
+      *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+      <mat-label>Tipo:</mat-label>
+      <mat-select formControlName="tipo">
+        <mat-option *ngFor="let tp of tipos" [value]="tp.tipo">
+          {{tp.descricao}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max"
+      *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+      <mat-label>Tipo:</mat-label>
+      <input matInput formControlName="tipo_" [readonly]="readOnly">
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max"
+      *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao'])  && (idAcao != getAcoes()[ 'Edicao']) )">
+      <mat-label>Controle:</mat-label>
+      <mat-select formControlName="controle">
+        <mat-option *ngFor="let resp of respostas" [value]="resp.sigla">
+          {{resp.descricao}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max"
+      *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) || (idAcao == getAcoes()[ 'Edicao']) )">
+      <mat-label>Controle:</mat-label>
+      <input matInput formControlName="controle_" [readonly]="true">
+    </mat-form-field>
+  </div>
+  <div class="col-med-1">
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Descrição</mat-label>
+      <input matInput formControlName="descricao" [readonly]="readOnly">
+      <mat-error *ngIf="formulario.get('descricao')?.status == 'INVALID' && touchedOrDirty('descricao')">Descrição
+        máximo 300 letras</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="button-container-right">
+    <button mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+    <button mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+  </div>
+</form>

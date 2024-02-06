@@ -1,0 +1,36 @@
+.content {
+    height: 60%;
+    overflow: auto;
+}
+
+.Browse-Scroll {
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: auto;
+    width: 100%;
+    height: inherit;
+    padding: 4px;
+}
+
+td {
+    font-size: small;
+    color: blue;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2AA;
+}
+
+tr:hover {
+    background-color: rgb(202, 169, 157);
+}
+
+.acoes {
+    color: darkred;
+    width: 100px;
+}
+
+.go-up {
+    margin-top: -10px;
+}

@@ -1,0 +1,33 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Apontamentos De - Horas Total de Horas {{totalHoras | horaSexagenal}}</span>
+    <div class="button-container-right">
+      <button mat-button class="green-icon" (click)="onManha()">Manhã</button>
+      <button mat-button class="green-icon" (click)="onTarde()">Tarde</button>
+      <button mat-button class="green-icon" (click)="onDiaTodo()">Dia Todo</button>
+      <button mat-button class="green-icon" (click)="onCalculo()">Calculo</button>
+    </div>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<form [formGroup]="parametro" autocomplete="off">
+  <div class="col-med-5">
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Entrada</mat-label>
+      <input matInput formControlName="entrada" placeholder="HH:MM" mask="00:00" [Setfocus]="focusEntrada">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Saída</mat-label>
+      <input matInput formControlName="saida" placeholder="HH:MM" mask="00:00">
+    </mat-form-field>
+  </div>
+</form>
+<div *ngFor="let corte of cortes">
+  {{corte}}
+</div>
+<h1>Horarios {{data}}</h1>
+<div *ngFor="let horario of lancaHoras">
+  {{horario.hora_inicial | date : 'HH:mm'}} - {{horario.hora_final | date : 'HH:mm'}}-{{horario.id_motivo}}
+</div>

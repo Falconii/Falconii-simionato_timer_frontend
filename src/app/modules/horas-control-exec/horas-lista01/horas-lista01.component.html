@@ -1,0 +1,106 @@
+<div class="div-barra">
+    <mat-toolbar>
+        <span class="example-spacer">EXECUTORES X HORAS LANÇADAS</span>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Atualizar" matTooltipPosition="above" class="button" (click)=onSubmit()>
+      <mat-icon>rotate_right</mat-icon>
+    </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    </mat-toolbar>
+</div>
+<div>
+    <form [formGroup]="parametro" autocomplete="off">
+        <div class="col-med-5">
+            <mat-form-field field appearance="outline" class="col-max">
+                <mat-label>Coordenadores</mat-label>
+                <mat-select formControlName="coordenadores">
+                    <mat-option *ngFor="let coordenador of coordenadores" [value]="coordenador.id">
+                        {{coordenador.razao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field field appearance="outline" class="col-max">
+                <mat-label>Auditores</mat-label>
+                <mat-select formControlName="auditores">
+                    <mat-option *ngFor="let auditor of auditores" [value]="auditor.id">
+                        {{auditor.razao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field field appearance="outline" class="col-max">
+                <mat-label>Ano</mat-label>
+                <mat-select formControlName="ano">
+                    <mat-option *ngFor="let ano of anos" [value]="ano">
+                        {{ano}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field field appearance="outline" class="col-max">
+                <mat-label>Mês</mat-label>
+                <mat-select formControlName="mes">
+                    <mat-option *ngFor="let mes of meses.meses" [value]="mes.nro">
+                        {{mes.nome}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
+</div>
+
+<cdk-virtual-scroll-viewport [itemSize]="50" class="content">
+    <table class="Browse-Scroll">
+        <tr class="coluna-cabec">
+            <th>Código</th>
+            <th>Executor</th>
+            <th>Grupo</th>
+            <th>Ativo</th>
+            <th>Time</th>
+            <th>Ticket</th>
+            <th>Data</th>
+            <th>Horas</th>
+        </tr>
+        <tr *cdkVirtualFor="let lista of listUsuariosExec ">
+            <td>
+                <div>
+                    <mat-label class="Browse_Lanc_td">{{lista.id}}</mat-label>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <mat-label class="Browse_Lanc_td">{{lista.razao | firstName}}</mat-label>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <mat-label class="Browse_Lanc_td">{{lista.grupo}}</mat-label>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <mat-label class="Browse_Lanc_td">{{lista.ativo}}</mat-label>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <mat-label class="Browse_Lanc_td">{{lista.timer}}</mat-label>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <mat-label class="Browse_Lanc_td">{{lista.ticket}}</mat-label>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <mat-label class="Browse_Lanc_td">{{lista.data}}</mat-label>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <mat-label class="Browse_Lanc_td">{{lista.horas_lancadas | horaSexagenal}}</mat-label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</cdk-virtual-scroll-viewport>

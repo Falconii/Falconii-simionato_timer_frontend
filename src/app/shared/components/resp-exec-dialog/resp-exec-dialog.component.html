@@ -1,0 +1,34 @@
+<h1>{{data.texto}}</h1>
+<form [formGroup]="formulario" autocomplete="off">
+    <div class="col-med-1">
+        <mat-form-field field appearance="outline" class="col-max">
+            <mat-label>{{data.titulo}}</mat-label>
+            <mat-select formControlName="usuario" (selectionChange)="onChangeUsuario($event)">
+                <mat-option *ngFor="let usuario of data.usuarios" [value]="usuario.id">
+                    {{usuario.razao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <mat-form-field class="full-width" appearance="outline" *ngIf="data.temJustificativa">
+        <mat-label>Justificativa</mat-label>
+        <textarea matInput formControlName="justificativa" oninput="this.value = this.value.toUpperCase()"></textarea>
+        <mat-error *ngIf="formulario.get('justificativa')?.status == 'INVALID' && touchedOrDirty('justificativa')">{{getMensafield('justificativa')}}</mat-error>
+    </mat-form-field>
+    <div class="button-container-right">
+        <button mat-raised-button color="accent" cdkFocusInitial (click)="closeModal()">
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="actionFunction()" *ngIf="formulario.valid">
+            <mat-icon>check</mat-icon>
+            Gravar
+        </button>
+    </div>
+    <div class="button-container-left">
+        <mat-label color="accent">Hora: {{data.dataHota | date : 'dd-MM-yyyy HH:mm:ss'}}</mat-label>
+    </div>
+    <div class="button-container-left">
+        <mat-label color="primary">Responsável:{{data.usuarioNome}}</mat-label>
+    </div>
+</form>

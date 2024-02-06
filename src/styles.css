@@ -1,0 +1,524 @@
+/*
+Video da Loiane
+https://www.youtube.com/watch?v=VnJdZ_od0wY&t=21s
+@import '@angular/material/theming';
+@include mat-core();
+$custom-app-primary: mat-palette($mat-blue);
+$custom-app-secondary: mat-palette($mat-indigo, A200, A400, 700);
+$custom-app-warn: mat-palette($mat-red);
+$custom-theme: mat-light-theme($custom-app-primary, $custom-app-secondary, $custom-app-warn);
+@include angular-material-theme($custom-theme);
+*/
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: Roboto;
+    font-size: medium;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.button-container-right {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+}
+
+.button-container-right button {
+    margin-left: 10px;
+}
+
+.button-container-left {
+    display: flex;
+    justify-content: left;
+    height: min-content;
+    width: 100%;
+}
+
+.button-container-left mat-label {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.Browse {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 500px;
+}
+
+.Browse_Lanc {
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: auto;
+    width: 100%;
+    height: auto;
+    padding: 4px;
+}
+
+.Browse_Lanc_td {
+    font-size: small;
+    color: #0000CC;
+}
+
+.Browse_Lanc_td_rigth {
+    font-size: small;
+    color: #0000CC;
+}
+
+.Browse_Lanc_td_medium {
+    font-size: medium;
+    color: #0000CC;
+}
+
+.linha {
+    background-color: white;
+}
+
+.linha :hover {
+    background-color: #CCCC99
+}
+
+.cabec-car {
+    background-color: #CCCC99;
+}
+
+.cabec-car-dom {
+    background-color: #DE3163;
+}
+
+.labelTitleFirst {
+    font-size: large;
+    color: #0000CC;
+}
+
+.labelTitle {
+    font-size: large;
+    color: #0000CC;
+    margin-left: 5px;
+}
+
+.labelData {
+    font-size: large;
+    color: black;
+    margin-left: 5px;
+}
+
+.col-med-1 {
+    display: grid;
+    grid-template-columns: repeat(1, [col-start] 1fr);
+    gap: 10px;
+}
+
+.col-med-2 {
+    display: grid;
+    grid-template-columns: repeat(2, [col-start] 1fr);
+    gap: 10px;
+}
+
+.col-med-3 {
+    display: grid;
+    grid-template-columns: repeat(3, [col-start] 1fr);
+    gap: 10px;
+}
+
+.col-med-4 {
+    display: grid;
+    grid-template-columns: repeat(4, [col-start] 1fr);
+    gap: 10px;
+}
+
+.col-med-5 {
+    display: grid;
+    grid-template-columns: repeat(5, [col-start] 1fr);
+    gap: 10px;
+}
+
+.col-med-6 {
+    display: grid;
+    grid-template-columns: repeat(6, [col-start] 1fr);
+    gap: 10px;
+}
+
+.col-med-7 {
+    display: grid;
+    grid-template-columns: repeat(7, [col-start] 1fr);
+    gap: 10px;
+}
+
+.col-med-8 {
+    display: grid;
+    grid-template-columns: repeat(8, [col-start] 1fr);
+    gap: 10px;
+}
+
+.col-max {
+    width: 100%;
+}
+
+.col-70 {
+    width: 70%;
+}
+
+.col-40 {
+    width: 40%;
+}
+
+.col-50 {
+    width: 50%;
+}
+
+.col-30 {
+    width: 30%;
+}
+
+.col-20 {
+    width: 20%;
+}
+
+.column-span-2 {
+    grid-column: span 2;
+}
+
+.column-span-3 {
+    grid-column: span 3;
+}
+
+.column-span-4 {
+    grid-column: span 4;
+}
+
+.column-span-5 {
+    grid-column: span 5;
+}
+
+.column-span-6 {
+    grid-column: span 5;
+}
+
+.column-span-7 {
+    grid-column: span 5;
+}
+
+.column-span-8 {
+    grid-column: span 5;
+}
+
+.div-barra {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    align-items: center;
+}
+
+.div-menu {
+    width: 100%;
+}
+
+.container {
+    width: 90%;
+    height: 90%;
+    margin: auto;
+}
+
+.dia-semana {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding-top: 10px;
+    height: 50px;
+    text-align: center;
+    font-size: large;
+}
+
+.coluna-codigo {
+    background-color: #878684;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.coluna-descricao {
+    background-color: #A9AD9E;
+    text-align: justify;
+    padding: 10px;
+}
+
+.coluna-acao {
+    background-color: #E1E7D3;
+    text-align: center;
+    font-weight: 400;
+}
+
+.coluna-cabec {
+    background-color: #E3BD11;
+    font-size: large;
+    text-align: left;
+    height: max-content;
+}
+
+.encerramento {
+    margin-top: 20px;
+}
+
+.atencao {
+    color: red;
+    font-size: large;
+    text-align: center;
+    height: 30px;
+    padding: 5px;
+}
+
+.atencao_mensagem {
+    color: blue;
+    font-size: large;
+    text-align: center;
+    height: 30px;
+    padding: 5px;
+}
+
+.green-icon {
+    color: green;
+}
+
+.red-icon {
+    color: red
+}
+
+.yellow-icon {
+    color: #E3BD11;
+}
+
+.blue-icon {
+    color: #0000CC;
+}
+
+.conta-ativa {
+    font-size: large;
+    color: #0000CC;
+}
+
+.conta-inativa {
+    font-size: large;
+    color: red
+}
+
+.spin {
+    margin-top: -10px;
+    height: 30px;
+}
+
+.quadro-spin {
+    margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    height: 200px;
+    border: 2px solid black;
+    box-shadow: 10px 10px 5px 6px gray;
+}
+
+.menu-standyby {
+    color: white
+}
+
+.menu-ativo {
+    color: red;
+}
+
+.circulo {
+    background-color: blue;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-left: 5px;
+}
+
+.linha-status {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    text-align: justify;
+}
+
+.linha-status-projeto {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    text-align: justify;
+}
+
+.mat-tooltip {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: large;
+    color: #0000CC;
+    background-color: coral;
+}
+
+.green-snackbar {
+    background: rgb(147, 216, 147);
+    color: blue;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
+    border: 2px solid black;
+    box-shadow: 10px 10px 5px 6px gray;
+}
+
+.green-snackbar button {
+    color: black;
+    font-weight: bolder;
+}
+
+.yellow-snackbar {
+    background: rgba(230, 230, 129, 0.712);
+    color: blue;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
+    border: 2px solid black;
+    box-shadow: 10px 10px 5px 6px gray;
+}
+
+.yellow-snackbar button {
+    color: black;
+    font-weight: bolder;
+}
+
+.red-snackbar {
+    background: rgb(233, 145, 145);
+    color: blue;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
+    border: 2px solid black;
+    box-shadow: 10px 10px 5px 6px gray;
+}
+
+.red-snackbar button {
+    color: black;
+    font-weight: bolder;
+}
+
+.dash-2 {
+    display: flex;
+    justify-items: left;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.box-grafico {
+    width: 50%;
+    border: 2px solid black;
+    box-shadow: 10px 10px 5px 6px gray;
+}
+
+.box-table {
+    border: 2px solid black;
+    box-shadow: 10px 10px 5px 6px gray;
+    min-width: 500px;
+}
+
+.box-column {
+    width: 100%;
+    height: 800px;
+    padding: 10px;
+    border: 2px solid black;
+    box-shadow: 10px 10px 5px 6px gray;
+}
+
+.input-numerico {
+    text-align: right;
+}
+
+.wrapper {
+    width: 100%;
+    overflow: hidden;
+    /* will contain if #first is longer than #second */
+}
+
+.first {
+    float: left;
+    margin-right: 5px;
+    /* add this */
+}
+
+.second {
+    overflow: hidden;
+    /* if you don't want #second to wrap below #first */
+}
+
+.status-encerrado {
+    background-color: blue;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-left: 10px;
+}
+
+.rodape {
+    width: 100%;
+    height: 10px;
+}
+
+.max-length {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: '...';
+    white-space: nowrap;
+}
+
+.max-length hover {
+    text-overflow: clip;
+    max-width: none
+}
+
+.alinha_direita {
+    text-align: right;
+    padding-right: 3px;
+}
+
+.alinha_centro {
+    text-align: center;
+}
+
+.alinha_esquerda {
+    text-align: left;
+}
+
+.rodape {
+    width: 100%;
+    height: 25px;
+}
+
+.box {
+    margin-bottom: 20px;
+    border: 2px solid black;
+    box-shadow: 10px 10px 5px 6px gray;
+}
+
+.acoes {
+    color: darkred;
+    width: 100px;
+}
+
+.acoes-medium {
+    font-size: medium;
+    color: #0000CC;
+    align-items: center;
+}
+
+.Browse-Scroll {
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: auto;
+    width: 100%;
+    height: inherit;
+    padding: 4px;
+}

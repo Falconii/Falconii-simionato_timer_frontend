@@ -1,0 +1,30 @@
+<h3>Pesquisa De Atividades</h3>
+<div>
+    <form [formGroup]="parametro" autocomplete="off">
+        <div class="col-med-2">
+            <mat-form-field field appearance="outline" class="col-max">
+                <mat-label>Contratos</mat-label>
+                <mat-select formControlName="projeto">
+                    <mat-option *ngFor="let projeto of projetos" [value]="projeto.id">
+                        {{projeto.descricao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field field appearance="outline" class="col-max">
+                <mat-label>Responsável</mat-label>
+                <mat-select formControlName="responsavel">
+                    <mat-option *ngFor="let responsavel of responsaveis" [value]="projeto.id">
+                        {{responsavel.razao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="button-container-right">
+            <button mat-raised-button color="primary" (click)="onOK()">Pesquisar</button>
+            <button mat-raised-button color="accent" (click)="onCancelar()">Cancelar</button>
+        </div>
+    </form>
+</div>
+<div class="listagem" *ngIf="atividades.length > 0">
+
+</div>

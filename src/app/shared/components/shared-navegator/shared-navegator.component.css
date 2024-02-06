@@ -1,0 +1,13 @@
+.pagina {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: inherit;
+    font-weight: inherit;
+    font: inherit;
+}
+
+.pagina span {
+    margin-top: 2px;
+}

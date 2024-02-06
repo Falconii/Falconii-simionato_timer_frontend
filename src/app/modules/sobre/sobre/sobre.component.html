@@ -1,0 +1,50 @@
+<mat-toolbar>
+    <span class="example-spacer">Parâmetros Gerais: </span>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Voltar" matTooltipPosition="above" (click)="onRetorno()">
+       <mat-icon>arrow_back</mat-icon>
+      </button>
+</mat-toolbar>
+<div class="Browse">
+    <div class="linha">
+        <mat-card class="example-card card-marg">
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">Versão:</mat-label>
+                <mat-label class="labelData">{{this.versao}}</mat-label>
+                <mat-label class="labelTitle">Data:</mat-label>
+                <mat-label class="labelData">{{this.data}}</mat-label>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="example-card card-marg">
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">Ambiente:</mat-label>
+                <mat-label class="labelData">{{this.ambiente}}</mat-label>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="example-card card-marg">
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">API:</mat-label>
+                <mat-label class="labelData">{{this.apiURL}}</mat-label>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<div class="button-container-right">
+    <button mat-raised-button color="primary" (click)="onSendOla()">Email Olá</button>
+</div>
+<div class="email_cabecalho">
+    <div class="email_img">
+        <img src="/assets/img/1.png" alt="Logo">
+    </div>
+</div>
+<p class="header2">Prezado(a) Marcos Renato Falconi</p>
+<div class="label_paragrafo">
+    <p class="label_paragrafo">Este E-Mail tem apenas o intuito de validar as rotinas de envio de e-mails.</p>
+    <p class="label_paragrafo">Por esta razão solicito a gentiliza de responder com um simples "OK" ou "Ciente"</p>
+    <p class="label_paragrafo">Em breve você receberá outro e-mail, para que seja feita uma atualização cadastrar, bem como a digitação da senha."</p>
+</div>
+<div class="label_paragrafo">
+    <p class="label_paragrafo">Por enquanto agradeço a atencao,</p>
+</div>
+<div class="label_paragrafo">
+    <p class="label_paragrafo">Sistema Timer</p>
+</div>

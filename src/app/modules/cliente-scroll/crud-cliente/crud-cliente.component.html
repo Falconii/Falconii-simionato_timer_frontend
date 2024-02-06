@@ -1,0 +1,98 @@
+<!--http://jsfiddle.net/danield770/sNwrs/3158/-->
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Clientes:</span>
+    <app-navegator [controle]="controlePaginas" (changePage)="onChangePage()"></app-navegator>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+      (click)="getClientesContador()" matTooltip="Atualizar" matTooltipPosition="above">
+      <mat-icon>rotate_right</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+      (click)="onSaveConfig()" matTooltip="Salvar Parâmetros" matTooltipPosition="above">
+      <mat-icon>brightness_high</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+      (click)="onHome()" matTooltip="Retorno" matTooltipPosition="above">
+      <mat-icon>home</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon "
+      (click)="escolha(getAcoes()[ 'Inclusao']) " [matTooltip]="getTexto().incluir" matTooltipPosition="above">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div>
+  <form [formGroup]="parametros" autocomplete="off" class="col-med-4">
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Ordenação</mat-label>
+      <mat-select formControlName="ordenacao" (selectionChange)="onChangeParametros()">
+        <mat-option *ngFor="let op of opcoesOrdenacao" [value]="op">
+          {{op}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Pesquisar Por</mat-label>
+      <mat-select formControlName="campo" (selectionChange)="onChangeParametros()">
+        <mat-option *ngFor="let op of opcoesCampo" [value]="op">
+          {{op}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max column-span-2" *ngIf="isGrupo()">
+      <mat-label>Pesquisar Por</mat-label>
+      <mat-select formControlName="grupo" (selectionChange)="onChangeParametros()">
+        <mat-option *ngFor="let gru of grupos" [value]="gru.id">
+          {{gru.razao}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-max column-span-2" *ngIf="!isGrupo()">
+      <mat-label>Descrição</mat-label>
+      <input matInput formControlName="filtro" oninput="this.value = this.value.toUpperCase()">
+    </mat-form-field>
+  </form>
+</div>
+<cdk-virtual-scroll-viewport [itemSize]="50" class="content">
+  <table class="Browse_Lanc">
+    <tr class="coluna-cabec">
+      <th>Cod.</th>
+      <th>Razão</th>
+      <th>Fantasia</th>
+      <th>CNPJ/CPF</th>
+      <th>Grupo</th>
+      <th>AÇÕES</th>
+    </tr>
+    <tr *cdkVirtualFor="let cliente of clientes ">
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{cliente.id}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{cliente.razao}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{cliente.fantasi}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{cliente.cnpj_cpf | cnpjcpf}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{cliente.grupo}}</mat-label>
+        </div>
+      </td>
+      <td class="acoes">
+        <barra-acoes [BARRA_VERTICAL]="true" [BARRA_ATIVIDADES]="false" [EXCLUIR]="false"
+          (changeOpcao)="escolha($event,cliente)"></barra-acoes>
+      </td>
+    </tr>
+  </table>
+</cdk-virtual-scroll-viewport>

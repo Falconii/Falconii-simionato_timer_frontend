@@ -1,0 +1,20 @@
+<form [formGroup]="parametro" autocomplete="off">
+  <div class="col-med-6">
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Diretores</mat-label>
+      <mat-select formControlName="diretor" (selectionChange)='onChangeDiretor()'>
+        <mat-option *ngFor="let diretor of diretores" [value]="diretor.id">
+          {{diretor.razao}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Situações</mat-label>
+      <mat-select formControlName="situacao" (selectionChange)='onChangeSituacao()'>
+        <mat-option *ngFor="let situacao of situacoes!" [value]="situacao.idx">
+          {{situacao.descricao}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>

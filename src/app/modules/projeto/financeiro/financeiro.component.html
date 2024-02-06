@@ -1,0 +1,213 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Contrato:{{id_empresa}}-{{id_projeto}} {{projeto.cliente_razao}} Valor:
+      {{projeto.valor | number:'1.2':'pt'}}</span>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Página Inicial"
+      matTooltipPosition="above" (click)="onHome()">
+      <mat-icon>home</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+      (click)="escolha(99)" matTooltip="Gerador De Parcelas" matTooltipPosition="above" *ngIf="titulos.length == 0">
+      <mat-icon>add_comment</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon "
+      (click)="escolha(getAcoes()[ 'Inclusao']) " [matTooltip]="getTexto().incluir" matTooltipPosition="above"
+      *ngIf="idAcao == 97" (click)="escolha(getAcoes().Inclusao)">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Retorno"
+      matTooltipPosition="above" (click)="onRetorno()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div *ngIf="idAcao == 99">
+  <form [formGroup]="gerador" autocomplete="off">
+    <div class="box padding">
+      <h3 class="alinha_centro">GERADOR DE PARCELAS</h3>
+      <div class="col-med-4">
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Data De Referência</mat-label>
+          <input matInput formControlName="data_ref" mask="00/00/0000" placeholder="dd/mm/aaaa">
+          <mat-error *ngIf="cadastro.get('data_ref')?.errors?.ValidatorDate && NoValidtouchedOrDirtyGe('data_ref')">
+            {{cadastro.get('data_ref')?.errors?.message}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>VLR TOTAL</mat-label>
+          <input matInput formControlName="vlr_total">
+          <mat-error *ngIf="NoValidtouchedOrDirtyGe('vlr_total')">Valor Obrigatório!</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Nº Parcelas</mat-label>
+          <mat-select formControlName="nro_parcelas">
+            <mat-option *ngFor="let parcela of parcelas" [value]="parcela">
+              {{parcela}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Dia Do Mês</mat-label>
+          <mat-select formControlName="dia_mes">
+            <mat-option *ngFor="let dia of dias_mes" [value]="dia.id">
+              {{dia.desc}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-med-2">
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Tipo De Arredondamento</mat-label>
+          <mat-select formControlName="tipo_arredondamento">
+            <mat-option *ngFor="let tipo of arredondamento" [value]="tipo.id">
+              {{tipo.desc}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Pula Final De Semana</mat-label>
+          <mat-select formControlName="pula_fds">
+            <mat-option *ngFor="let pula of pula_fds" [value]="pula.id">
+              {{pula.desc}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-med-2">
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>VLR PARCELA</mat-label>
+          <input matInput formControlName="vlr_parcela" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>VLR ARREDONDAMENTO</mat-label>
+          <input matInput formControlName="vlr_arredondamento" [readonly]="readOnly">
+        </mat-form-field>
+      </div>
+      <div class="button-container-right">
+        <button mat-raised-button color="primary" (click)="onGravarParcelas()"
+          [disabled]="titulos.length <= 0">Gravar</button>
+        <button mat-raised-button color="primary" (click)="onGerarParcelas()">Processar</button>
+        <button mat-raised-button color="accent" (click)="onCancelGeracao()">Cancelar</button>
+      </div>
+    </div>
+    <div class="rodape"></div>
+    <div class="col-max box padding" *ngIf="titulos.length > 0">
+      <h3 class="alinha_centro">PARCELAS TOTAL: {{totalParcelas | number:'1.2':'pt' }}</h3>
+      <table class="Browse_Lanc">
+        <tr class="coluna-cabec">
+          <th>Nº PARC.</th>
+          <th>VENC.</th>
+          <th>PAGTO</th>
+          <th>VALOR</th>
+        </tr>
+        <tr *ngFor="let titulo of titulos ; index as i">
+          <td class="acoes">
+            <div class="alinha_centro">
+              <mat-label class="Browse_Lanc_td">{{i+1}}</mat-label>
+            </div>
+          </td>
+          <td>
+            <div class="alinha_centro">
+              <mat-label class="Browse_Lanc_td">{{titulo.data_vencto}}</mat-label>
+            </div>
+          </td>
+          <td>
+            <div class="alinha_centro">
+              <mat-label class="Browse_Lanc_td">{{titulo.data_pagto}}</mat-label>
+            </div>
+          </td>
+          <td>
+            <div class="alinha_direita">
+              <mat-label class="Browse_Lanc_td">{{titulo.valor | number:'1.2':'pt'}}</mat-label>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </form>
+</div>
+<div class="box" *ngIf="idAcao <= 90">
+  <form [formGroup]="cadastro" autocomplete="off" class="padding">
+    <h3 class="alinha_centro">TÍTULO FINANCEIRO</h3>
+    <div class="col-med-3">
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Data Vencto</mat-label>
+        <input matInput formControlName="data_vencto" mask="00/00/0000" placeholder="dd/mm/aaaa" [readonly]="readOnly">
+        <mat-error *ngIf="cadastro.get('data_vencto')?.errors?.ValidatorDate && NoValidtouchedOrDirtyCd('data_vencto')">
+          {{cadastro.get('data_vencto')?.errors?.message}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Valor</mat-label>
+        <input matInput formControlName="valor" [readonly]="readOnly">
+        <mat-error *ngIf="NoValidtouchedOrDirtyCd('valor')">Valor Obrigatório!</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Data Pagto</mat-label>
+        <input matInput formControlName="data_pagto" mask="00/00/0000" placeholder="dd/mm/aaaa" [readonly]="readOnly">
+        <mat-error *ngIf="cadastro.get('data_pagto')?.errors?.ValidatorDate && NoValidtouchedOrDirtyCd('data_pagto')">
+          {{cadastro.get('data_pagto')?.errors?.message}}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-med-1">
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Observação</mat-label>
+        <input matInput formControlName="obs" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
+        <mat-error *ngIf="NoValidtouchedOrDirtyCd('obs')">Observação - Tamanho Máximo 100 letras
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="button-container-right">
+      <button mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+      <button mat-raised-button color="accent" (click)="onPosicaoInicial()">{{getLabelCancel()}}</button>
+    </div>
+  </form>
+</div>
+<div class="col-max box" *ngIf="titulos.length > 0 && idAcao == 97">
+  <h3 class="alinha_centro">PARCELAS TOTAL: {{totalParcelas | number:'1.2':'pt'}}</h3>
+  <table class="Browse_Lanc">
+    <tr class="coluna-cabec">
+      <th>Nº PARC.</th>
+      <th>VENC.</th>
+      <th>PAGTO</th>
+      <th>VALOR</th>
+      <th>OBSERVAÇÃO</th>
+      <th>AÇÃO</th>
+    </tr>
+    <tr *ngFor="let titulo of titulos ; index as i">
+      <td class="acoes">
+        <div class="alinha_centro">
+          <mat-label class="Browse_Lanc_td">{{i+1}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div class="alinha_centro">
+          <mat-label class="Browse_Lanc_td">{{titulo.data_vencto}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div class="alinha_centro">
+          <mat-label class="Browse_Lanc_td">{{titulo.data_pagto}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div class="alinha_direita">
+          <mat-label class="Browse_Lanc_td">{{titulo.valor | number:'1.2':'pt'}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{titulo.obs}}</mat-label>
+        </div>
+      </td>
+      <td class="acoes">
+        <barra-acoes [CONSULTAR]="false" (changeOpcao)="escolha($event,titulo)">
+        </barra-acoes>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="col-max" *ngIf="titulos.length == 0 && idAcao == 97">
+  <h5>Nenhum Título Cadastrado!</h5>
+</div>
+<div class="rodape">
+
+</div>

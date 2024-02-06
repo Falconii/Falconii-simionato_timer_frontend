@@ -1,0 +1,58 @@
+<div class="div-barra">
+    <mat-toolbar>
+        <span class="example-spacer">{{getLabelCabec()}}</span>
+
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </mat-toolbar>
+</div>
+<h3>Resumo De Horas Do Projeto:</h3>
+<form [formGroup]="formulario" autocomplete="off">
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Horas Planejadas</mat-label>
+            <input matInput formControlName="horasplan" [readonly]="true">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Horas Executadas</mat-label>
+            <input matInput formControlName="horasexec" [readonly]="true">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Horas Diretoria</mat-label>
+            <input matInput formControlName="horasdir" [readonly]="true">
+        </mat-form-field>
+    </div>
+</form>
+<div class="atividades" *ngIf="atividades.length > 0">
+    <table>
+        <tr class="coluna-cabec">
+            <th>ATIVIDADES</th>
+            <th>ACÃO</th>
+        </tr>
+        <tr *ngFor="let atividade of atividades">
+            <td class="coluna-descricao">
+                <mat-label class="labelData">{{atividade.estru_descri}}</mat-label>
+                <div class="coluna-descricao cor-blue">
+                    <mat-label class="labelTitle">Horas Pl.:</mat-label>
+                    <mat-label class="labelData">{{atividade.horasplan}}</mat-label>
+                    <mat-label class="labelTitle">Horas Ex.:</mat-label>
+                    <mat-label class="labelData">{{atividade.horasexec}}</mat-label>
+                    <mat-label class="labelTitle">Horas Diretoria.:</mat-label>
+                    <mat-label class="labelData">{{atividade.horasdir}}</mat-label>
+                </div>
+                <div class="coluna-descricao cor-blue">
+                    <mat-label class="labelTitle">Data Inicial:</mat-label>
+                    <mat-label class="labelData">{{atividade.inicial | date : 'dd/MM/yyyy'}}</mat-label>
+                    <mat-label class="labelTitle">Data Final:</mat-label>
+                    <mat-label class="labelData">{{atividade.final | date : 'dd/MM/yyyy'}}</mat-label>
+                </div>
+            </td>
+            <td class="coluna-acao">
+                <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Editar Atividade" matTooltipPosition="above" (click)="onHorasDiretoria(atividade)">
+                      <mat-icon>edit</mat-icon>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>

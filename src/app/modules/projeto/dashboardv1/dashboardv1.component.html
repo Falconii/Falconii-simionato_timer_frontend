@@ -1,0 +1,107 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Contrato:{{projeto.id}}-{{projeto.cliente_razao}} Horas executadas:
+      {{projeto.horasexec | horaSexagenal}}</span>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Retorno"
+      matTooltipPosition="above" (click)="onRetorno()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+<div class="col-med-2">
+  <div id="chart_div" class="col-max">
+
+  </div>
+  <div id="content" #content class="col-max box" *ngIf="executores.length > 0">
+    <h3 class="alinha_centro">EXECUTORES</h3>
+    <table class="Browse_Lanc">
+      <tr class="coluna-cabec">
+        <th>CÓDIGO</th>
+        <th>NOME</th>
+        <th>HORAS</th>
+        <th>AÇÃO</th>
+      </tr>
+      <tr *ngFor="let exec of executores">
+        <td>
+          <div>
+            <mat-label class="Browse_Lanc_td">{{exec.id}}</mat-label>
+          </div>
+        </td>
+        <td>
+          <div>
+            <mat-label class="Browse_Lanc_td">{{exec.nome}}</mat-label>
+          </div>
+        </td>
+        <td>
+          <div>
+            <mat-label class="Browse_Lanc_td_rigth">{{exec.horas | horaSexagenal}}</mat-label>
+          </div>
+        </td>
+        <td>
+          <div>
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+              matTooltip="Filtrar Lançamentos" matTooltipPosition="above" (click)="onFiltro(exec)">
+              <mat-icon>filter_list</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="button-container-right">
+      <button mat-button class="green-icon" (click)="onTodos()">Todos</button>
+    </div>
+  </div>
+</div>
+<div class="box " *ngIf="getApontatamentos().length > 0">
+  <h3 class="alinha_centro">APONTAMENTOS</h3>
+  <table class="Browse_Lanc">
+    <tr class="coluna-cabec">
+      <th>HORÁRIO</th>
+      <th>CLIENTE/DESCRIÇÃO/ATIVIDADE</th>
+      <th>MOTIVO/OBS</th>
+    </tr>
+    <tr *ngFor="let lanca of getApontatamentos()">
+      <td>
+        <div class="wrapper">
+          <div class="first">
+            <mat-label class="Browse_Lanc_td">{{lanca.inicial | date : 'dd/MM/YY HH:mm'}} as
+              {{lanca.final | date : 'HH:mm'}}
+            </mat-label>
+            <mat-label class="Browse_Lanc_td">{{lanca.horasapon | horaSexagenal}}</mat-label>
+          </div>
+          <div class="second" *ngIf="lanca.encerramento=='S'">
+            <mat-icon class="green-icon">check</mat-icon>
+          </div>
+        </div>
+        <div>
+          <mat-label class="Browse_Lanc_td">Resp:{{lanca.resp_razao | firstName}}</mat-label>
+        </div>
+        <div>
+          <mat-label class="Browse_Lanc_td">Resp:{{lanca.exec_razao | firstName}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">Contr:({{lanca.id_projeto}}) {{lanca.cli_razao}}</mat-label>
+        </div>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{lanca.proj_descricao}}</mat-label>
+        </div>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{lanca.estru_descricao}}</mat-label>
+        </div>
+      </td>
+      <td>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{lanca.motivo_descricao}}</mat-label>
+        </div>
+        <div>
+          <mat-label class="Browse_Lanc_td">{{lanca.obs}}</mat-label>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="rodape">
+
+</div>

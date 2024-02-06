@@ -1,0 +1,12 @@
+<form [formGroup]="parametro" autocomplete="off">
+  <div class="col-med-6">
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Coordenadores</mat-label>
+      <mat-select formControlName="coordenador" (selectionChange)='onChangeCoordenador()'>
+        <mat-option *ngFor="let coordenador of coordenadores" [value]="coordenador.id">
+          {{coordenador.razao}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>
