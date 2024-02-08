@@ -114,12 +114,13 @@ export class AgendaViewComponent implements OnInit {
 
     par.orderby = 'Razão';
 
+    /*
     if (
       this.usuariosService.isCoordenador(this.globalService.getUsuario().grupo)
     ) {
       par.id = this.globalService.getUsuario().id;
     }
-
+*/
     this.inscricaoCoordenador = this.usuariosService
       .getusuarios_01(par)
       .subscribe(
