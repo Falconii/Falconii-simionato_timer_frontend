@@ -1,0 +1,27 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Importação De Feriados De Um Determinado Ano</span>
+  </mat-toolbar>
+</div>
+<form [formGroup]="formulario" autocomplete="off">
+  <div class="col-med-1">
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Ano</mat-label>
+      <mat-select formControlName="ano" (selectionChange)="onChangeParametros()">
+        <mat-option *ngFor="let ano of anos" [value]="ano">
+          {{ano}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="button-container-right">
+    <button mat-raised-button color="accent" cdkFocusInitial (click)="closeModal()">
+      <mat-icon>cancel</mat-icon>
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="actionFunction()">
+      <mat-icon>check</mat-icon>
+      Gravar
+    </button>
+  </div>
+</form>

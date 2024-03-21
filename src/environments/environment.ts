@@ -13,5 +13,5 @@ export const environment = {
   data: '06-02-2024',
   production: true,
   ambiente: 'Produção',
-  apiURL: 'https://simionatotimerbackend-production.up.railway.app/api/',
+  apiURL: 'http://localhost:3000/api/',
 };

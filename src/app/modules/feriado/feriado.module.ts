@@ -9,8 +9,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { NovoAnoDialogComponent } from './novo-ano-dialog/novo-ano-dialog.component';
 @NgModule({
-  declarations: [CrudFeriadoComponent, FeriadoViewComponent],
+  declarations: [
+    CrudFeriadoComponent,
+    FeriadoViewComponent,
+    NovoAnoDialogComponent,
+  ],
   imports: [
     CommonModule,
     FeriadoRoutingModule,

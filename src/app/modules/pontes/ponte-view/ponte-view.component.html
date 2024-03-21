@@ -20,7 +20,7 @@
           <mat-label>Data Inicial</mat-label>
           <input matInput formControlName="data_inicial" mask="00/00/0000" placeholder="dd/mm/aaaa"
             [readonly]="idAcao != 99" [readonly]="readOnly">
-          <mat-error *ngIf="gerador.get('data_ref')?.errors?.ValidatorDate && NoValidtouchedOrDirtyGe('data_ref')">
+          <mat-error *ngIf="gerador.get('data_inicial')?.errors?.ValidatorDate && NoValidtouchedOrDirtyGe('data_ref')">
             {{gerador.get('data_ref')?.errors?.message}}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-max">

@@ -104,7 +104,8 @@ export class PonteViewComponent implements OnInit {
       this.idAcao = params.acao;
     });
     this.gerador = formBuilder.group({
-      data_ref: [{ value: 0 }, [ValidatorDate(true)]],
+      data_inicial: [{ value: 0 }, [ValidatorDate(true)]],
+      data_final: [{ value: 0 }, [ValidatorDate(true)]],
       descricao: [{ value: '' }, [ValidatorStringLen(3, 50, true)]],
     });
 
@@ -127,7 +128,7 @@ export class PonteViewComponent implements OnInit {
 
   setValueGerador() {
     this.gerador.setValue({
-      data_ref: this.feriado.data,
+      data_inicial: this.feriado.data,
       descricao: this.feriado.descricao,
     });
   }

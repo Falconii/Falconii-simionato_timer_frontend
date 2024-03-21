@@ -5,6 +5,7 @@ export class ParametroFeriado01 {
   public id_nivel: number = 0;
   public data: string = '';
   public descricao: string = '';
+  public ano: string = '';
   public pagina: number = 0;
   public tamPagina: number = 50;
   public formato: string = '';

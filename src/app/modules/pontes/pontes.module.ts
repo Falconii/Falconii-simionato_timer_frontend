@@ -11,7 +11,11 @@ import { PonteViewComponent } from './ponte-view/ponte-view.component';
 import { AlterDescricaoDialogComponent } from './alter-descricao-dialog/alter-descricao-dialog.component';
 
 @NgModule({
-  declarations: [CrudPonteComponent, PonteViewComponent, AlterDescricaoDialogComponent],
+  declarations: [
+    CrudPonteComponent,
+    PonteViewComponent,
+    AlterDescricaoDialogComponent,
+  ],
   imports: [
     CommonModule,
     PontesRoutingModule,

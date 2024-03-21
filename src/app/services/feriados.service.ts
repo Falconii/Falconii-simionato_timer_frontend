@@ -45,6 +45,10 @@ export class FeriadosService {
     return this.http.post<FeriadoModel>(`${this.apiURL}feriado/`, feriado);
   }
 
+  FeriadoinsertAllFeriados(feriados: FeriadoModel[]) {
+    return this.http.post<any>(`${this.apiURL}insert_all_feriados/`, feriados);
+  }
+
   FeriadoAllPontes(pontes: FeriadoModel[]) {
     return this.http.post<any>(`${this.apiURL}allpontes/`, pontes);
   }

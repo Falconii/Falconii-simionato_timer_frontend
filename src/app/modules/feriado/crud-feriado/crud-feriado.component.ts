@@ -2,6 +2,7 @@ import { ApiBrasilService } from './../../../services/api-brasil.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BrasilApiModel } from 'src/app/Models/brasil-api-model';
@@ -22,7 +23,10 @@ import {
   GetValueJsonStringArray,
   MensagensBotoes,
   messageError,
+  aaaammddddmmaaaa,
 } from 'src/app/shared/classes/util';
+import { NovoAnoDialogData } from '../novo-ano-dialog/novo-ano-dialog-data';
+import { NovoAnoDialogComponent } from '../novo-ano-dialog/novo-ano-dialog.component';
 
 @Component({
   selector: 'app-crud-feriado',
@@ -37,7 +41,7 @@ export class CrudFeriadoComponent implements OnInit {
   inscricaoApiBrasil!: Subscription;
   inscricaoSaveFeriado!: Subscription;
 
-  lsFeriados: BrasilApiModel[] = [];
+  lsFeriadosBrasilApi: BrasilApiModel[] = [];
 
   feriados: FeriadoModel[] = [];
 
@@ -65,7 +69,8 @@ export class CrudFeriadoComponent implements OnInit {
     private appSnackBar: AppSnackbar,
     private globalService: GlobalService,
     private parametrosService: ParametrosService,
-    private apiBrasilService: ApiBrasilService
+    private apiBrasilService: ApiBrasilService,
+    public novoAnoDialog: MatDialog
   ) {
     this.parametros = formBuilder.group({
       ordenacao: [null],
@@ -132,7 +137,14 @@ export class CrudFeriadoComponent implements OnInit {
       Object(config).descricao = this.parametros.value.filtro;
       this.parametro.parametro = JSON.stringify(config);
       this.globalService.estadoSave(this.parametro);
-      this.router.navigate(['/feriados/feriado', 1, 0, opcao]);
+      this.router.navigate([
+        '/feriados/feriado',
+        this.globalService.getIdEmpresa,
+        this.globalService.getUsuario().id,
+        0,
+        '',
+        opcao,
+      ]);
     }
   }
 
@@ -207,6 +219,16 @@ export class CrudFeriadoComponent implements OnInit {
     if (this.parametros.value.campo == 'Descrição')
       par.descricao = this.parametros.value.filtro.toUpperCase();
 
+    if (this.parametros.value.campo == 'Ano') {
+      par.ano = this.parametros.value.filtro;
+    }
+
+    if (this.parametros.value.campo == 'Tipo') {
+      par.id_tipo = 0;
+    }
+
+    par.ano = this.parametros.value.filtro;
+
     par.orderby = this.parametros.value.ordenacao;
 
     par.contador = 'S';
@@ -230,7 +252,7 @@ export class CrudFeriadoComponent implements OnInit {
             //'É inclusao ',
             this.controlePaginas.goLast();
           }
-        this.getFeriados();
+        this.loadParametros();
       },
       (error: any) => {
         this.globalService.setSpin(false);
@@ -273,10 +295,12 @@ export class CrudFeriadoComponent implements OnInit {
             'pesquisar'
           );
           this.setValues();
+          this.getFeriadosContador();
         },
         (error: any) => {
           this.globalService.setSpin(false);
           this.setValues();
+          this.getFeriadosContador();
         }
       );
   }
@@ -340,12 +364,32 @@ export class CrudFeriadoComponent implements OnInit {
   }
 
   onHome() {
-    this.getApiBrasilFeriados();
-    //this.router.navigate(['']);
+    this.router.navigate(['']);
   }
 
   onSaveConfig() {
     this.updateParametros();
+  }
+
+  onNovoAno() {
+    const data: NovoAnoDialogData = new NovoAnoDialogData();
+    data.titulo = 'FERIADOS ANUAIS';
+    const dialogConfig = new MatDialogConfig();
+
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.disableClose = true;
+    dialogConfig.id = 'question-dialog';
+    dialogConfig.width = '600px';
+    dialogConfig.width = '600px';
+    dialogConfig.data = data;
+    const modalDialog = this.novoAnoDialog
+      .open(NovoAnoDialogComponent, dialogConfig)
+      .beforeClosed()
+      .subscribe((data: NovoAnoDialogData) => {
+        if (typeof data !== 'undefined' && data.processar) {
+          this.loadApiBrasilFeriados(data.ano);
+        }
+      });
   }
 
   /* rotinas dos parametros */
@@ -354,14 +398,14 @@ export class CrudFeriadoComponent implements OnInit {
     this.parametro = new ParametroModel();
     this.parametro.id_empresa = this.globalService.getIdEmpresa();
     this.parametro.modulo = 'feriado';
-    this.parametro.assinatura = 'V1.00 18/09/2023';
+    this.parametro.assinatura = 'V1.00 21/03/2024';
     this.parametro.id_usuario = this.globalService.usuario.id;
     this.parametro.parametro = `
     {
       "op_ordenacao": 0,
       "ordenacao": ["Data", "Descrição"],
       "op_pesquisar": 1,
-      "pesquisar": ["Data", "Descrição"],
+      "pesquisar": ["Data", "Descrição", "Ano" , "Tipo"],
       "descricao": "",
       "page": 1,
       "new": false,
@@ -395,6 +439,7 @@ export class CrudFeriadoComponent implements OnInit {
         }
         this.globalService.estadoDelete(par);
         this.setValues();
+        this.getFeriadosContador();
       }
     } else {
       this.getParametro();
@@ -410,50 +455,49 @@ export class CrudFeriadoComponent implements OnInit {
     this.parametro.setParametro(config);
   }
 
-  getApiBrasilFeriados() {
+  loadApiBrasilFeriados(ano: string) {
     this.globalService.setSpin(true);
-    this.inscricaoApiBrasil = this.apiBrasilService
-      .getFeriados('2023')
-      .subscribe(
-        (data: BrasilApiModel[]) => {
-          this.globalService.setSpin(false);
-          this.lsFeriados = data;
-          this.saveFeriados();
-        },
-        (error: any) => {
-          this.globalService.setSpin(false);
-          this.appSnackBar.openFailureSnackBar(
-            `Pesquisa API BRASIL ${messageError(error)}`,
-            'OK'
-          );
-        }
-      );
+    this.inscricaoApiBrasil = this.apiBrasilService.getFeriados(ano).subscribe(
+      (data: BrasilApiModel[]) => {
+        this.globalService.setSpin(false);
+        this.lsFeriadosBrasilApi = data;
+        console.log(this.lsFeriadosBrasilApi);
+        this.saveFeriados();
+      },
+      (error: any) => {
+        this.globalService.setSpin(false);
+        this.appSnackBar.openFailureSnackBar(
+          `Pesquisa API BRASIL ${messageError(error)}`,
+          'OK'
+        );
+      }
+    );
   }
 
   saveFeriados() {
+    let lsFeriadosToSave: FeriadoModel[] = [];
     this.globalService.setSpin(true);
-    console.log('feriado para gravar', this.lsFeriados[0]);
-    const feriado = new FeriadoModel();
-    feriado.id_empresa = this.globalService.id_empresa;
-    feriado.id_usuario = 0;
-    feriado.id_tipo = 1;
-    feriado.id_nivel = 3;
-    feriado.data = this.lsFeriados[0].date;
-    feriado.descricao = this.lsFeriados[0].name.toUpperCase();
-    feriado.user_insert = this.globalService.usuario.id;
+    this.lsFeriadosBrasilApi.forEach((fer) => {
+      const feriado = new FeriadoModel();
+      feriado.id_empresa = this.globalService.id_empresa;
+      feriado.id_usuario = 0;
+      feriado.id_tipo = 1;
+      feriado.id_nivel = 3;
+      feriado.data = aaaammddddmmaaaa(fer.date);
+      feriado.descricao = fer.name.toUpperCase();
+      feriado.user_insert = this.globalService.usuario.id;
+
+      lsFeriadosToSave.push(feriado);
+    });
 
     this.inscricaoSaveFeriado = this.feriadoService
-      .FeriadoInsert(feriado)
+      .FeriadoinsertAllFeriados(lsFeriadosToSave)
       .subscribe(
-        (data: FeriadoModel) => {
+        (data: any) => {
           this.globalService.setSpin(false);
-          this.lsFeriados.splice(0, 1);
-          if (this.lsFeriados.length > 0) {
-            this.saveFeriados();
-          }
+          this.appSnackBar.openSuccessSnackBar(`${data.message}`, 'OK');
         },
         (error: any) => {
-          console.log(error);
           this.globalService.setSpin(false);
           this.appSnackBar.openFailureSnackBar(
             `Inclusão De Feriados ${messageError(error)}`,
