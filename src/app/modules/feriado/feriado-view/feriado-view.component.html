@@ -1,1 +1,95 @@
-<p>feriado-view works!</p>
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">
+      <mat-label>{{labelCadastro}}</mat-label>
+    </span>
+    <div class="button-container-right">
+      <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="idAcao != 3">
+        <mat-icon>check</mat-icon>
+        {{acao}}
+      </button>
+      <button mat-raised-button color="accent" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+        {{getLabelCancel()}}
+      </button>
+    </div>
+  </mat-toolbar>
+</div>
+<form [formGroup]="formulario" autocomplete="off">
+
+  <div class="moldura">
+    <div class="col-med-3">
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Data</mat-label>
+        <input matInput formControlName="data" mask="00/00/0000" placeholder="DD/MM/AAAA" readonly=true>
+        <mat-error *ngIf="formulario.get('data')?.errors?.ValidatorDate && touchedOrDirty('data')">
+          {{formulario.get('data')?.errors?.message}}</mat-error>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max column-span-2"
+        *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']) && (idAcao != getAcoes()[ 'Atualizacao']))">
+        <mat-label>Usuário</mat-label>
+        <mat-select formControlName="usuario">
+          <mat-option *ngFor="let usuario of lsUsuarios" [value]="usuario.id">
+            {{usuario.razao}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max column-span-2"
+        *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+        <mat-label>Usuário</mat-label>
+        <input matInput formControlName="usuario_" [readonly]="readOnly">
+      </mat-form-field>
+    </div>
+    <div class="col-med-2">
+      <mat-form-field field appearance="outline" class="col-max"
+        *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']) && (idAcao != getAcoes()[ 'Atualizacao']))">
+        <mat-label>Tipo Da Data</mat-label>
+        <mat-select formControlName="tipo">
+          <mat-option *ngFor="let tipo of tipos_data" [value]="tipo.id">
+            {{tipo.descricao}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max"
+        *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+        <mat-label>Tipo Da Data</mat-label>
+        <input matInput formControlName="tipo_" [readonly]="readOnly">
+      </mat-form-field>
+
+      <mat-form-field field appearance="outline" class="col-max"
+        *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']) && (idAcao != getAcoes()[ 'Atualizacao']))">
+        <mat-label>Nivel</mat-label>
+        <mat-select formControlName="nivel">
+          <mat-option *ngFor="let nivel of niveis_data" [value]="nivel.id">
+            {{nivel.descricao}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field field appearance="outline" class="col-max"
+        *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+        <mat-label>Nivel</mat-label>
+        <input matInput formControlName="nivel_" [readonly]="readOnly">
+      </mat-form-field>
+
+    </div>
+    <div class="col-med-1">
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Razão Social</mat-label>
+        <input matInput formControlName="descricao" oninput="this.value = this.value.toUpperCase()" autofocus
+          [readonly]="readOnly">
+        <mat-error *ngIf="formulario.get('descricao')?.errors?.ValidatorStringLen && touchedOrDirty('descricao')">
+          {{formulario.get('descricao')?.errors?.message}}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="button-container-right">
+    <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="idAcao != 3">
+      <mat-icon>check</mat-icon>
+      {{acao}}
+    </button>
+    <button mat-raised-button color="accent" (click)="onCancel()">
+      <mat-icon>cancel</mat-icon>
+      {{getLabelCancel()}}
+    </button>
+  </div>
+</form>

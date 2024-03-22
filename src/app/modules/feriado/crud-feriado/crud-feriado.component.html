@@ -44,7 +44,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-max column-span-2">
       <mat-label>Descrição</mat-label>
-      <input matInput formControlName="filtro">
+      <input matInput formControlName="filtro" oninput="this.value = this.value.toUpperCase()">
     </mat-form-field>
   </form>
 </div>

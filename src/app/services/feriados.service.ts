@@ -26,7 +26,7 @@ export class FeriadosService {
     data: string
   ): Observable<FeriadoModel> {
     return this.http.get<FeriadoModel>(
-      `${this.apiURL}feriado/${id_empresa}/${id_usuario}/${id_tipo}/${data}`
+      `${this.apiURL}feriado/${id_empresa}/${id_usuario}/${id_tipo}?data=${data}`
     );
   }
 

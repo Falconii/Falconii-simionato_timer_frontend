@@ -44,9 +44,9 @@ export class CrudProjetoComponent implements OnInit {
 
   erro: string = '';
 
-  opcoesOrdenacao = ['Código', 'Descrição', 'Fantasia'];
+  opcoesOrdenacao: string[] = [];
 
-  opcoesCampo = ['Código', 'Descrição', 'Fantasia'];
+  opcoesCampo: string[] = [];
 
   controlePaginas: ControlePaginas = new ControlePaginas(0, 0);
 
@@ -402,8 +402,8 @@ export class CrudProjetoComponent implements OnInit {
           this.parametro.setParametro(par.getParametro());
         }
         this.globalService.estadoDelete(par);
-        this.setValues();
       }
+      this.setValues();
       this.getProjetosContador();
     } else {
       this.getParametro();

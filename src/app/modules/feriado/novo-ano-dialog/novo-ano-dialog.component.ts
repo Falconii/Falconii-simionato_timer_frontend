@@ -112,7 +112,7 @@ export class NovoAnoDialogComponent implements OnInit {
         if (nReg !== 0) {
           this.formulario.patchValue({ ano: '' });
           this.appSnackBar.openFailureSnackBar(
-            `Este Ano Já Possui Feriados ${data.total}`,
+            `Este Ano Já Possui ${data.total} Feriado(s) `,
             'OK'
           );
         }
@@ -125,5 +125,13 @@ export class NovoAnoDialogComponent implements OnInit {
         );
       }
     );
+  }
+
+  itsOK(): boolean {
+    if (this.formulario.value.ano == '') {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

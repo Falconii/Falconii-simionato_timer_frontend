@@ -9,6 +9,8 @@ import { CadastroAcoes } from '../shared/classes/cadastro-acoes';
 import { ParametroModel } from '../Models/parametro-model';
 import { ParceiraModel } from '../Models/parceira-model';
 import { TipoContratoModel } from '../Models/tipo-contrato-model';
+import { TipoData } from '../shared/classes/tipo-data';
+import { NivelData } from '../shared/classes/nivel-data';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +27,8 @@ export class GlobalService {
   lsParametros: ParametroModel[] = [];
   lsParceiras: ParceiraModel[] = [];
   lsTpoContratos: TipoContratoModel[] = [];
+  lsTiposData: TipoData[] = [];
+  lsNiveisData: NivelData[] = [];
 
   shomMenuEmitter = new EventEmitter<boolean>();
   refreshLançamentos = new EventEmitter<CelulaDia>();
@@ -35,10 +39,69 @@ export class GlobalService {
   constructor(private usuarioService: UsuariosService, private router: Router) {
     this.usuario = new UsuarioModel();
     this.logado = false;
+    this.loadTiposData();
+    this.loadNiveisData();
     this.loadParceiras();
     this.loadTipoContratos();
     this.loadGuardiaoMestre();
     this.loadGuardiaoOpcoes();
+  }
+
+  loadNiveisData() {
+    let nivel: NivelData = new NivelData();
+    nivel.id = 0;
+    nivel.descricao = 'SEM DEFINIÇÃO';
+    this.lsNiveisData.push(nivel);
+    nivel = new NivelData();
+    nivel.id = 1;
+    nivel.descricao = 'NIVEL 1';
+    this.lsNiveisData.push(nivel);
+    nivel = new NivelData();
+    nivel.id = 2;
+    nivel.descricao = 'NIVEL 2';
+    this.lsNiveisData.push(nivel);
+    nivel = new NivelData();
+    nivel.id = 3;
+    nivel.descricao = 'NIVEL 3';
+    this.lsNiveisData.push(nivel);
+    nivel = new NivelData();
+    nivel.id = 4;
+    nivel.descricao = 'NIVEL 4';
+    this.lsNiveisData.push(nivel);
+  }
+
+  getlsNiveisData(): NivelData[] {
+    return this.lsNiveisData;
+  }
+
+  loadTiposData() {
+    let tipo: TipoData = new TipoData();
+    tipo.id = 0;
+    tipo.descricao = 'SEM DEFINIÇÃO';
+    this.lsTiposData.push(tipo);
+    tipo = new TipoData();
+    tipo.id = 1;
+    tipo.descricao = 'TIPO 1';
+    this.lsTiposData.push(tipo);
+
+    tipo = new TipoData();
+    tipo.id = 2;
+    tipo.descricao = 'TIPO 2';
+    this.lsTiposData.push(tipo);
+
+    tipo = new TipoData();
+    tipo.id = 3;
+    tipo.descricao = 'TIPO 3';
+    this.lsTiposData.push(tipo);
+
+    tipo = new TipoData();
+    tipo.id = 4;
+    tipo.descricao = 'TIPO 4';
+    this.lsTiposData.push(tipo);
+  }
+
+  getlsTiposData(): TipoData[] {
+    return this.lsTiposData;
   }
 
   getUsuario(): UsuarioModel {

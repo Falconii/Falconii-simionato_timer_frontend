@@ -19,7 +19,8 @@
       <mat-icon>cancel</mat-icon>
       Cancelar
     </button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="actionFunction()">
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="!itsOK()"
+      (click)="actionFunction()">
       <mat-icon>check</mat-icon>
       Gravar
     </button>

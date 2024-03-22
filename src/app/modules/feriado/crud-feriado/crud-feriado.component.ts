@@ -85,11 +85,10 @@ export class CrudFeriadoComponent implements OnInit {
         const par = this.globalService.estadoFind('feriado');
       }
     });
-    this.loadParametros();
   }
 
   ngOnInit(): void {
-    this.getFeriadosContador();
+    this.loadParametros();
   }
 
   ngOnDestroy() {
@@ -164,6 +163,14 @@ export class CrudFeriadoComponent implements OnInit {
 
     if (this.parametros.value.campo == 'Descrição')
       par.descricao = this.parametros.value.filtro.toUpperCase();
+
+    if (this.parametros.value.campo == 'Ano') {
+      par.ano = this.parametros.value.filtro;
+    }
+
+    if (this.parametros.value.campo == 'Tipo') {
+      par.id_tipo = 0;
+    }
 
     par.orderby = this.parametros.value.ordenacao;
 
@@ -252,7 +259,7 @@ export class CrudFeriadoComponent implements OnInit {
             //'É inclusao ',
             this.controlePaginas.goLast();
           }
-        this.loadParametros();
+        this.getFeriados();
       },
       (error: any) => {
         this.globalService.setSpin(false);
@@ -438,9 +445,9 @@ export class CrudFeriadoComponent implements OnInit {
           this.parametro.setParametro(par.getParametro());
         }
         this.globalService.estadoDelete(par);
-        this.setValues();
-        this.getFeriadosContador();
       }
+      this.setValues();
+      this.getFeriadosContador();
     } else {
       this.getParametro();
     }
@@ -462,7 +469,7 @@ export class CrudFeriadoComponent implements OnInit {
         this.globalService.setSpin(false);
         this.lsFeriadosBrasilApi = data;
         console.log(this.lsFeriadosBrasilApi);
-        this.saveFeriados();
+        this.saveFeriados(ano);
       },
       (error: any) => {
         this.globalService.setSpin(false);
@@ -474,7 +481,7 @@ export class CrudFeriadoComponent implements OnInit {
     );
   }
 
-  saveFeriados() {
+  saveFeriados(ano: string) {
     let lsFeriadosToSave: FeriadoModel[] = [];
     this.globalService.setSpin(true);
     this.lsFeriadosBrasilApi.forEach((fer) => {
@@ -489,6 +496,29 @@ export class CrudFeriadoComponent implements OnInit {
 
       lsFeriadosToSave.push(feriado);
     });
+    //adiciona dia da conciencia negra
+    const conciencia = new FeriadoModel();
+    conciencia.id_empresa = this.globalService.id_empresa;
+    conciencia.id_usuario = 0;
+    conciencia.id_tipo = 1;
+    conciencia.id_nivel = 3;
+    conciencia.data = '20/11/' + ano;
+    conciencia.descricao = 'DIA DA CONCIÊNCIA NEGRA';
+    conciencia.user_insert = this.globalService.usuario.id;
+
+    lsFeriadosToSave.push(conciencia);
+
+    //adiciona dia da conciencia negra
+    const niver = new FeriadoModel();
+    niver.id_empresa = this.globalService.id_empresa;
+    niver.id_usuario = 0;
+    niver.id_tipo = 1;
+    niver.id_nivel = 3;
+    niver.data = '08/12/' + ano;
+    niver.descricao = 'NOSSA SENHARA - PADROEIRA CPS';
+    niver.user_insert = this.globalService.usuario.id;
+
+    lsFeriadosToSave.push(niver);
 
     this.inscricaoSaveFeriado = this.feriadoService
       .FeriadoinsertAllFeriados(lsFeriadosToSave)
