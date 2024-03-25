@@ -98,12 +98,15 @@ const routes: Routes = [
     path: 'feriados',
     loadChildren: () =>
       import('./modules/feriado/feriado.module').then((m) => m.FeriadoModule),
-    canActivate: [DiganaoGuard],
+    canActivate: [],
   },
   {
-    path: 'pontes',
+    path: 'especiais',
     loadChildren: () =>
-      import('./modules/pontes/pontes.module').then((m) => m.PontesModule),
+      import('./modules/data-especial/data-especial.module').then(
+        (m) => m.DataEspecialModule
+      ),
+    canActivate: [],
   },
   {
     path: 'gerencial',

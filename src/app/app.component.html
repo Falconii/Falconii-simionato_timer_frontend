@@ -1,10 +1,11 @@
 <p>
-    <mat-toolbar color="primary">
-        <button routerLink="" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="setOpcao('')">
+  <mat-toolbar color="primary">
+    <button routerLink="" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+      (click)="setOpcao('')">
       <mat-icon>menu</mat-icon>
     </button>
-        <span>Simionato Auditores</span>
-        <span *ngIf="showMenu">
+    <span>Simionato Auditores</span>
+    <span *ngIf="showMenu">
       <button mat-button [matMenuTriggerFor]="cadastros" (click)="setOpcao('Cadastros')"
         [ngStyle]="{'color' : opcao==='Cadastros' ? 'red' : 'white' }" *ngIf="okCadastros()">Cadastros</button>
       <button mat-button [matMenuTriggerFor]="projetos" (click)="setOpcao('Projetos')"
@@ -19,7 +20,7 @@
       <button mat-button [matMenuTriggerFor]="sobre" (click)="setOpcao('Sobre')"
         [ngStyle]="{'color' : opcao==='Sobre' ? 'red' : 'white' }">Sobre</button>
     </span>
-        <span>
+    <span>
       <!-- #docregion sub-menu -->
       <mat-menu #cadastros="matMenu">
         <button mat-menu-item routerLink="empresas">Empresas</button>
@@ -30,7 +31,7 @@
         <button mat-menu-item routerLink="motivos">Motivos De Apontamento</button>
         <button mat-menu-item routerLink="estruturas">Estruturas</button>
         <button mat-menu-item routerLink="feriados">Feriados</button>
-        <button mat-menu-item routerLink="pontes">Pontes</button>
+        <button mat-menu-item routerLink="especiais">Datas Especiais</button>
       </mat-menu>
       <mat-menu #projetos="matMenu">
         <button mat-menu-item routerLink="projetos">Contratos</button>
@@ -50,7 +51,7 @@
       </mat-menu>
       <mat-menu #horas="matMenu">
         <button mat-menu-item>Feriados</button>
-        <button mat-menu-item>Pontes E Férias</button>
+        <button mat-menu-item>Datas Especiais</button>
         <button mat-menu-item>Resumo Geral</button>
       </mat-menu>
       <mat-menu #execucao="matMenu">
@@ -67,16 +68,17 @@
         <button mat-menu-item routerLink="execucao3">Lançamento Execução Teste</button>
       </mat-menu>
     </span>
-        <span class="example-spacer"></span>
-        <label>{{getUsuario()}}</label>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="LOGIN" matTooltipPosition="above" (click)="onLogin()">
+    <span class="example-spacer"></span>
+    <label>{{getUsuario()}}</label>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="LOGIN"
+      matTooltipPosition="above" (click)="onLogin()">
       <mat-icon>person</mat-icon>
     </button>
-    </mat-toolbar>
+  </mat-toolbar>
 </p>
 <div class="spin">
-    <app-spins></app-spins>
+  <app-spins></app-spins>
 </div>
 <div class="container">
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>

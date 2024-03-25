@@ -79,12 +79,7 @@ export class GlobalService {
 
     tipo = new TipoData();
     tipo.id = 2;
-    tipo.descricao = 'BANCO DE HORAS';
-    this.lsTiposData.push(tipo);
-
-    tipo = new TipoData();
-    tipo.id = 3;
-    tipo.descricao = 'HORAS ABONADAS';
+    tipo.descricao = 'DATAS ESPECIAIS';
     this.lsTiposData.push(tipo);
   }
 

@@ -7,8 +7,9 @@ export class FeriadoModel {
   public data: string = '';
   public id_nivel: number = 0;
   public descricao: string = '';
-  public nlanc_manha: number = 0;
-  public nlanc_tarde: number = 0;
+  public conta: string = '';
+  public versao: string = '';
+  public subconta: string = '';
   public user_insert: number = 0;
   public user_update: number = 0;
   public lancamento01: ApoExecucaoModel = new ApoExecucaoModel();
