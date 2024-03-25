@@ -50,23 +50,19 @@ export class GlobalService {
   loadNiveisData() {
     let nivel: NivelData = new NivelData();
     nivel.id = 0;
-    nivel.descricao = 'SEM DEFINIÇÃO';
+    nivel.descricao = 'NÃO SE APLICA';
     this.lsNiveisData.push(nivel);
     nivel = new NivelData();
     nivel.id = 1;
-    nivel.descricao = 'NIVEL 1';
+    nivel.descricao = 'FERIADO MUNICIPAL';
     this.lsNiveisData.push(nivel);
     nivel = new NivelData();
     nivel.id = 2;
-    nivel.descricao = 'NIVEL 2';
+    nivel.descricao = 'FERIADO ESTADUAL';
     this.lsNiveisData.push(nivel);
     nivel = new NivelData();
     nivel.id = 3;
-    nivel.descricao = 'NIVEL 3';
-    this.lsNiveisData.push(nivel);
-    nivel = new NivelData();
-    nivel.id = 4;
-    nivel.descricao = 'NIVEL 4';
+    nivel.descricao = 'FERIADO NACIONAL';
     this.lsNiveisData.push(nivel);
   }
 
@@ -76,27 +72,19 @@ export class GlobalService {
 
   loadTiposData() {
     let tipo: TipoData = new TipoData();
-    tipo.id = 0;
-    tipo.descricao = 'SEM DEFINIÇÃO';
-    this.lsTiposData.push(tipo);
     tipo = new TipoData();
     tipo.id = 1;
-    tipo.descricao = 'TIPO 1';
+    tipo.descricao = 'FERIADOS';
     this.lsTiposData.push(tipo);
 
     tipo = new TipoData();
     tipo.id = 2;
-    tipo.descricao = 'TIPO 2';
+    tipo.descricao = 'BANCO DE HORAS';
     this.lsTiposData.push(tipo);
 
     tipo = new TipoData();
     tipo.id = 3;
-    tipo.descricao = 'TIPO 3';
-    this.lsTiposData.push(tipo);
-
-    tipo = new TipoData();
-    tipo.id = 4;
-    tipo.descricao = 'TIPO 4';
+    tipo.descricao = 'HORAS ABONADAS';
     this.lsTiposData.push(tipo);
   }
 

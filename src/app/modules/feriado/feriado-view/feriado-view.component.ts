@@ -1,3 +1,4 @@
+import { TipoConta } from './../../../shared/classes/tipo-conta';
 import { CadastroAcoes } from 'src/app/shared/classes/cadastro-acoes';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -64,7 +65,7 @@ export class FeriadoViewComponent implements OnInit {
       tipo: [{ value: '' }],
       tipo_: [{ value: '' }],
       nivel: [{ value: '' }],
-      nivel_: [{}],
+      nivel_: [{ value: '' }],
       descricao: [{ value: '' }],
     });
     this.feriado = new FeriadoModel();
@@ -76,17 +77,11 @@ export class FeriadoViewComponent implements OnInit {
       this.idAcao = params.acao;
       this.setAcao(params.acao);
     });
+    this.setValue();
   }
 
   ngOnInit(): void {
-    if (this.idAcao == CadastroAcoes.Inclusao) {
-      this.feriado = new FeriadoModel();
-      this.feriado.id_empresa = this.globalService.getIdEmpresa();
-      this.getUsuarios();
-    } else {
-      this.getFeriado();
-    }
-    this.setValue();
+    this.getUsuarios();
   }
 
   ngOnDestroy(): void {
@@ -120,13 +115,13 @@ export class FeriadoViewComponent implements OnInit {
       tipo_:
         this.idAcao == CadastroAcoes.Consulta ||
         this.idAcao == CadastroAcoes.Exclusao
-          ? this.tipos_data[this.feriado.id_tipo]
+          ? this.tipos_data[this.feriado.id_tipo + 1].descricao
           : '',
       nivel: this.feriado.id_nivel,
       nivel_:
         this.idAcao == CadastroAcoes.Consulta ||
         this.idAcao == CadastroAcoes.Exclusao
-          ? this.niveis_data[this.feriado.id_nivel]
+          ? this.niveis_data[this.feriado.id_nivel].descricao
           : '',
       descricao: this.feriado.descricao,
     });
@@ -173,7 +168,6 @@ export class FeriadoViewComponent implements OnInit {
         (data: FeriadoModel) => {
           this.globalService.setSpin(false);
           this.feriado = data;
-          this.getUsuarios();
           console.log(this.feriado);
           this.setValue();
         },
@@ -206,6 +200,17 @@ export class FeriadoViewComponent implements OnInit {
         (data: any) => {
           this.globalService.setSpin(false);
           this.lsUsuarios = data;
+          if (this.idAcao == CadastroAcoes.Inclusao) {
+            this.feriado = new FeriadoModel();
+            this.feriado.id_empresa = this.globalService.getIdEmpresa();
+            console.log(this.niveis_data);
+            console.log(this.tipos_data);
+            this.setValue();
+          } else {
+            console.log(this.niveis_data);
+            console.log(this.tipos_data);
+            this.getFeriado();
+          }
         },
         (error: any) => {
           this.globalService.setSpin(false);
@@ -248,7 +253,7 @@ export class FeriadoViewComponent implements OnInit {
     this.feriado.data = this.formulario.value.data;
     this.feriado.id_tipo = this.formulario.value.tipo;
     this.feriado.id_nivel = this.formulario.value.nivel;
-    this.feriado.descricao = this.formulario.value.data;
+    this.feriado.descricao = this.formulario.value.descricao;
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:
         this.globalService.setSpin(false);
