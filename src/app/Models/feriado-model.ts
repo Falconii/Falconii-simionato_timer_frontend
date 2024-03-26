@@ -15,4 +15,7 @@ export class FeriadoModel {
   public lancamento01: ApoExecucaoModel = new ApoExecucaoModel();
   public lancamento02: ApoExecucaoModel = new ApoExecucaoModel();
   public usu_nome: string = '';
+  public conta_descricao: string = '';
+  public subconta_descricao: string = '';
+  public atividade_descricao: string = '';
 }

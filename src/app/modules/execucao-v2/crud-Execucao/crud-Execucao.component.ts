@@ -126,7 +126,6 @@ export class CrudExecucaoComponent implements OnInit {
   constructor(
     formBuilder: FormBuilder,
     private usuariosService: UsuariosService,
-    private aponPlanejamentoService: AponPlanejamentoService,
     private aponExecucaoService: AponExecucaoService,
     private atividadesService: AtividadesService,
     private motivoApoService: MotivoApoService,

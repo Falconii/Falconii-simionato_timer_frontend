@@ -147,6 +147,8 @@ export class CrudEspecialComponent implements OnInit {
 
     par.id_empresa = 1;
 
+    par.id_tipo = 2;
+
     par.orderby = 'Data';
 
     if (this.parametros.value.campo == 'Data')
@@ -177,6 +179,7 @@ export class CrudEspecialComponent implements OnInit {
       (data: FeriadoModel[]) => {
         this.globalService.setSpin(false);
         this.feriados = data;
+        console.log(this.feriados);
         const idx = this.feriados.findIndex(
           (fer) =>
             fer.data ==
@@ -208,6 +211,8 @@ export class CrudEspecialComponent implements OnInit {
     let par = new ParametroFeriado01();
 
     par.id_empresa = 1;
+
+    par.id_tipo = 2;
 
     par.orderby = 'Data';
 

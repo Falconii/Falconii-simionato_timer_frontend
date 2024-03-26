@@ -1,5 +1,83 @@
-<p>especial-view works!
+<<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">
+      <mat-label>{{labelCadastro}}</mat-label>
+    </span>
+  </mat-toolbar>
+  </div>
+  <form [formGroup]="formulario" autocomplete="off">
 
-
-
-</p>
+    <div class="moldura">
+      <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Data</mat-label>
+          <input matInput formControlName="data" mask="00/00/0000" placeholder="DD/MM/AAAA" [readonly]="readOnlyKey()">
+          <mat-error *ngIf="formulario.get('data')?.errors?.ValidatorDate && touchedOrDirty('data')">
+            {{formulario.get('data')?.errors?.message}}</mat-error>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max column-span-2"
+          *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao'])  && (idAcao != getAcoes()[ 'Edicao']))">
+          <mat-label>Usuário</mat-label>
+          <mat-select formControlName="usuario">
+            <mat-option *ngFor="let usuario of lsUsuarios" [value]="usuario.id">
+              {{usuario.razao}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max column-span-2"
+          *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) || (idAcao == getAcoes()[ 'Edicao']) )">
+          <mat-label>Usuário</mat-label>
+          <input matInput formControlName="usuario_" [readonly]="readOnlyKey()">
+        </mat-form-field>
+      </div>
+      <div class="col-med-2">
+        <mat-form-field field appearance="outline" class="col-max"
+          *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']) )">
+          <mat-label>Grupos</mat-label>
+          <mat-select formControlName="id_grupo" (selectionChange)="onChangeGrupos()">
+            <mat-option *ngFor="let grupo of grupos" [value]="grupo.subconta.substring(0,4)">
+              {{grupo.estru_descri}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max"
+          *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao'])  )">
+          <mat-label>Grupo</mat-label>
+          <input matInput formControlName="id_grupo_" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max"
+          *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']) )">
+          <mat-label>Atividades</mat-label>
+          <mat-select formControlName="id_atividade">
+            <mat-option *ngFor="let atividade of atividades" [value]="atividade.subconta.trim()">
+              {{atividade.estru_descri}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max"
+          *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+          <mat-label>Atividade</mat-label>
+          <input matInput formControlName="id_atividade_" [readonly]="readOnly">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-med-1">
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Descrição</mat-label>
+        <input matInput formControlName="descricao" oninput="this.value = this.value.toUpperCase()"
+          [readonly]="readOnly">
+        <mat-error *ngIf="formulario.get('descricao')?.errors?.ValidatorStringLen && touchedOrDirty('descricao')">
+          {{formulario.get('descricao')?.errors?.message}}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="button-container-right">
+      <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="idAcao != 3">
+        <mat-icon>check</mat-icon>
+        {{acao}}
+      </button>
+      <button mat-raised-button color="accent" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+        {{getLabelCancel()}}
+      </button>
+    </div>
+  </form>

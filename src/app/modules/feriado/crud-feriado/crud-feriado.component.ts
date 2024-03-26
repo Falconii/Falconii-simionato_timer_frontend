@@ -156,6 +156,8 @@ export class CrudFeriadoComponent implements OnInit {
 
     par.id_empresa = 1;
 
+    par.id_tipo = 1;
+
     par.orderby = 'Data';
 
     if (this.parametros.value.campo == 'Data')
@@ -217,6 +219,8 @@ export class CrudFeriadoComponent implements OnInit {
     let par = new ParametroFeriado01();
 
     par.id_empresa = 1;
+
+    par.id_tipo = 1;
 
     par.orderby = 'Data';
 
@@ -501,7 +505,7 @@ export class CrudFeriadoComponent implements OnInit {
     conciencia.id_empresa = this.globalService.id_empresa;
     conciencia.id_usuario = 0;
     conciencia.id_tipo = 1;
-    conciencia.id_nivel = 3;
+    conciencia.id_nivel = 1;
     conciencia.data = '20/11/' + ano;
     conciencia.descricao = 'DIA DA CONCIÊNCIA NEGRA';
     conciencia.user_insert = this.globalService.usuario.id;
@@ -513,7 +517,7 @@ export class CrudFeriadoComponent implements OnInit {
     niver.id_empresa = this.globalService.id_empresa;
     niver.id_usuario = 0;
     niver.id_tipo = 1;
-    niver.id_nivel = 3;
+    niver.id_nivel = 1;
     niver.data = '08/12/' + ano;
     niver.descricao = 'NOSSA SENHARA - PADROEIRA CPS';
     niver.user_insert = this.globalService.usuario.id;

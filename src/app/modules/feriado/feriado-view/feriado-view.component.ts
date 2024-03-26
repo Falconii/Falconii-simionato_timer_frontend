@@ -15,6 +15,7 @@ import { messageError } from 'src/app/shared/classes/util';
 import { ParametroUsuario01 } from 'src/app/parametros/parametro-usuario01';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { UsuarioModel } from 'src/app/Models/usuario-model';
+import { ValidatorDate } from 'src/app/shared/Validators/validator-date';
 
 @Component({
   selector: 'app-feriado-view',
@@ -47,8 +48,6 @@ export class FeriadoViewComponent implements OnInit {
   id_tipo: number = 0;
   data: string = '';
 
-  lsUsuarios: UsuarioModel[] = [];
-
   constructor(
     private formBuilder: FormBuilder,
     private feriadosService: FeriadosService,
@@ -59,16 +58,15 @@ export class FeriadoViewComponent implements OnInit {
     private appSnackBar: AppSnackbar
   ) {
     this.formulario = formBuilder.group({
-      data: [{ value: '' }],
-      usuario: [{ value: '' }],
-      usuario_: [{ value: '' }],
-      tipo: [{ value: '' }],
-      tipo_: [{ value: '' }],
+      data: [{ value: '' }, [ValidatorDate(true)]],
       nivel: [{ value: '' }],
       nivel_: [{ value: '' }],
-      descricao: [{ value: '' }],
+      descricao: [{ value: '' }, [ValidatorStringLen(1, 50, true)]],
     });
     this.feriado = new FeriadoModel();
+    this.feriado.id_empresa = this.globalService.getIdEmpresa();
+    this.feriado.id_tipo = 1;
+    this.feriado.id_nivel = 3;
     this.inscricaoRota = route.params.subscribe((params: any) => {
       this.id_empresa = params.id_empresa;
       this.id_usuario = params.id_usuario;
@@ -81,12 +79,14 @@ export class FeriadoViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUsuarios();
+    if (this.idAcao != CadastroAcoes.Inclusao) {
+      console.log('Buscando getFeriado!', this.idAcao);
+      this.getFeriado();
+    }
   }
 
   ngOnDestroy(): void {
     this.inscricaoGetFeriado?.unsubscribe();
-    this.inscricaoGetUsuarios?.unsubscribe();
     this.inscricaoRota?.unsubscribe();
     this.inscricaoAcao?.unsubscribe();
   }
@@ -105,18 +105,6 @@ export class FeriadoViewComponent implements OnInit {
   setValue() {
     this.formulario.setValue({
       data: this.feriado.data,
-      usuario: this.feriado.id_usuario,
-      usuario_:
-        this.idAcao == CadastroAcoes.Consulta ||
-        this.idAcao == CadastroAcoes.Exclusao
-          ? this.feriado.usu_nome
-          : '',
-      tipo: this.feriado.id_tipo,
-      tipo_:
-        this.idAcao == CadastroAcoes.Consulta ||
-        this.idAcao == CadastroAcoes.Exclusao
-          ? this.tipos_data[this.feriado.id_tipo + 1].descricao
-          : '',
       nivel: this.feriado.id_nivel,
       nivel_:
         this.idAcao == CadastroAcoes.Consulta ||
@@ -168,54 +156,12 @@ export class FeriadoViewComponent implements OnInit {
         (data: FeriadoModel) => {
           this.globalService.setSpin(false);
           this.feriado = data;
-          console.log(this.feriado);
           this.setValue();
         },
         (error: any) => {
           this.globalService.setSpin(false);
-          console.log(error);
           this.appSnackBar.openFailureSnackBar(
             `Pesquisa Nos Feriados ${messageError(error)}`,
-            'OK'
-          );
-        }
-      );
-  }
-
-  getUsuarios() {
-    let par = new ParametroUsuario01();
-
-    par.id_empresa = this.globalService.getIdEmpresa();
-
-    par.orderby = 'Razão';
-
-    par.contador = 'N';
-
-    par.pagina = 0;
-
-    this.globalService.setSpin(true);
-    this.inscricaoGetUsuarios = this.usuariosService
-      .getusuarios_01(par)
-      .subscribe(
-        (data: any) => {
-          this.globalService.setSpin(false);
-          this.lsUsuarios = data;
-          if (this.idAcao == CadastroAcoes.Inclusao) {
-            this.feriado = new FeriadoModel();
-            this.feriado.id_empresa = this.globalService.getIdEmpresa();
-            console.log(this.niveis_data);
-            console.log(this.tipos_data);
-            this.setValue();
-          } else {
-            console.log(this.niveis_data);
-            console.log(this.tipos_data);
-            this.getFeriado();
-          }
-        },
-        (error: any) => {
-          this.globalService.setSpin(false);
-          this.appSnackBar.openFailureSnackBar(
-            `Pesquisa Nos Usuários ${messageError(error)}`,
             'OK'
           );
         }
@@ -251,7 +197,6 @@ export class FeriadoViewComponent implements OnInit {
 
   executaAcao() {
     this.feriado.data = this.formulario.value.data;
-    this.feriado.id_tipo = this.formulario.value.tipo;
     this.feriado.id_nivel = this.formulario.value.nivel;
     this.feriado.descricao = this.formulario.value.descricao;
     switch (+this.idAcao) {
@@ -344,5 +289,13 @@ export class FeriadoViewComponent implements OnInit {
 
   getMensafield(field: string): string {
     return this.formulario.get(field)?.errors?.message;
+  }
+
+  readOnlyKey() {
+    if (this.idAcao == CadastroAcoes.Inclusao) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
